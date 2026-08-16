@@ -45,6 +45,17 @@ Isso garante que todo código que entra na `main` já passou pelo olhar de outra
 
 > Se tiver dúvida sobre os termos usados aqui (branch, Pull Request, etc.), dá uma olhada no [Glossário de Conceitos](./02-glossario-conceitos.md).
 
+## 4. Por que documentamos em `.md` (Markdown) e não em `.pdf`
+
+Toda a documentação do projeto (como este guia, o glossário e o esboço) é escrita em Markdown (`.md`), e não em PDF. Isso não é acaso — é o padrão usado em repositórios de código:
+
+- É o mesmo formato do `README.md`, que o próprio GitHub reconhece e exibe automaticamente na página do repositório
+- O GitHub renderiza o `.md` já formatado (títulos, listas, tabelas), sem precisar baixar nada
+- Por ser texto puro, o Git consegue mostrar exatamente o que mudou entre uma versão e outra — algo que não é possível com um PDF
+- Qualquer pessoa da equipe consegue editar direto pelo navegador, sem precisar de outro programa
+
+Ou seja: `.md` é o formato ideal para documentação viva, que vamos consultar e atualizar com frequência ao longo do projeto.
+
 ---
 
 > Este guia também vai evoluir com o tempo — se algo não estiver claro ou faltar alguma informação, é só sinalizar para o time.
