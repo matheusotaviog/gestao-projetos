@@ -5,9 +5,9 @@ services:
     image: postgres:15-alpine
     container_name: gestao_projetos_db
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: "dev%RDXxdr%"
-      POSTGRES_DB: gestao_projetos
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: "${DB_PASS}"
+      POSTGRES_DB: ${DB_NAME}
     ports:
       - "5432:5432"
     volumes:
