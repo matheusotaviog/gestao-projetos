@@ -1,8 +1,8 @@
-import { createBrowserRouter } from 'react-router'
+import { createBrowserRouter, type RouteObject } from 'react-router'
 import { AppShell } from '../components/layout/AppShell'
 import { PlaceholderPage } from '../components/ui/PlaceholderPage'
 
-export const router = createBrowserRouter([
+export const routes: RouteObject[] = [
   {
     Component: AppShell,
     children: [
@@ -80,4 +80,6 @@ export const router = createBrowserRouter([
       />
     ),
   },
-])
+]
+
+export const router = createBrowserRouter(routes)
