@@ -3,6 +3,7 @@ package jar.security;
 import org.springframework.http.HttpMethod;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -23,18 +24,35 @@ public class SecurityConfig {
 
         http
             .csrf(csrf -> csrf.disable())
+
             .formLogin(form -> form.disable())
+
             .httpBasic(basic -> basic.disable())
+
             .sessionManagement(session ->
                 session.sessionCreationPolicy(
                     SessionCreationPolicy.STATELESS
                 )
             )
+
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
-                .requestMatchers(HttpMethod.POST, "/usuarios/login").permitAll()
+
+                // Cadastro
+                .requestMatchers(
+                    HttpMethod.POST,
+                    "/usuarios"
+                ).permitAll()
+
+                // Login
+                .requestMatchers(
+                    HttpMethod.POST,
+                    "/usuarios/login"
+                ).permitAll()
+
+                // Qualquer outra rota precisa de JWT
                 .anyRequest().authenticated()
             )
+
             .addFilterBefore(
                 jwtFilter,
                 UsernamePasswordAuthenticationFilter.class
