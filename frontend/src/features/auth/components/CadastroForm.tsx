@@ -40,6 +40,40 @@ function validatePassword(pwd: string): string | null {
   return null
 }
 
+function CheckIcon() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  )
+}
+
+function DotIcon() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="4" fill="currentColor" />
+    </svg>
+  )
+}
+
 export function CadastroForm({ onSuccess }: CadastroFormProps) {
   const navigate = useNavigate()
   const [nome, setNome] = useState('')
@@ -49,6 +83,13 @@ export function CadastroForm({ onSuccess }: CadastroFormProps) {
   const [errors, setErrors] = useState<FormErrors>({})
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+
+  const hasMinLength = senha.length >= 8
+  const hasLower = /[a-z]/.test(senha)
+  const hasUpper = /[A-Z]/.test(senha)
+  const hasNumber = /[0-9]/.test(senha)
+  const hasSpecial = /[^A-Za-z0-9]/.test(senha)
+  const hasCase = hasLower && hasUpper
 
   function validate(): boolean {
     const newErrors: FormErrors = {}
@@ -155,18 +196,52 @@ export function CadastroForm({ onSuccess }: CadastroFormProps) {
         required
       />
 
-      <FormInput
-        id="senha"
-        label="Senha"
-        type="password"
-        value={senha}
-        onChange={(e) => setSenha(e.target.value)}
-        error={errors.senha}
-        placeholder="Mínimo 8 caracteres (A-Z, a-z, 0-9, símbolos)"
-        autoComplete="new-password"
-        disabled={isLoading || Boolean(successMessage)}
-        required
-      />
+      <div className={styles.field}>
+        <FormInput
+          id="senha"
+          label="Senha"
+          type="password"
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
+          error={errors.senha}
+          placeholder="Digite sua senha"
+          autoComplete="new-password"
+          disabled={isLoading || Boolean(successMessage)}
+          required
+        />
+
+        <div className={styles.passwordHints} aria-live="polite">
+          <span className={styles.passwordHintsTitle}>
+            A senha deve conter:
+          </span>
+          <ul className={styles.passwordHintsList}>
+            <li
+              className={`${styles.hintItem} ${hasMinLength ? styles.hintMet : styles.hintPending}`}
+            >
+              {hasMinLength ? <CheckIcon /> : <DotIcon />}
+              Pelo menos 8 caracteres
+            </li>
+            <li
+              className={`${styles.hintItem} ${hasCase ? styles.hintMet : styles.hintPending}`}
+            >
+              {hasCase ? <CheckIcon /> : <DotIcon />}
+              Letras maiúsculas e minúsculas
+            </li>
+            <li
+              className={`${styles.hintItem} ${hasNumber ? styles.hintMet : styles.hintPending}`}
+            >
+              {hasNumber ? <CheckIcon /> : <DotIcon />}
+              Pelo menos um número
+            </li>
+            <li
+              className={`${styles.hintItem} ${hasSpecial ? styles.hintMet : styles.hintPending}`}
+            >
+              {hasSpecial ? <CheckIcon /> : <DotIcon />}
+              Pelo menos um caractere especial (ex: !@#$%)
+            </li>
+          </ul>
+        </div>
+      </div>
 
       <FormInput
         id="confirmarSenha"
