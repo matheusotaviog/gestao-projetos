@@ -88,4 +88,23 @@ describe('LoginForm', () => {
       expect(screen.getByRole('alert')).toHaveTextContent('Credenciais inválidas.')
     })
   })
+
+  it('alterna a visibilidade da senha ao clicar no botão de visualização', async () => {
+    const user = userEvent.setup()
+    renderLoginForm()
+
+    const passwordInput = screen.getByLabelText('Senha')
+    expect(passwordInput).toHaveAttribute('type', 'password')
+
+    const toggleButton = screen.getByRole('button', { name: 'Ver senha' })
+    await user.click(toggleButton)
+
+    expect(passwordInput).toHaveAttribute('type', 'text')
+    expect(
+      screen.getByRole('button', { name: 'Ocultar senha' }),
+    ).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Ocultar senha' }))
+    expect(passwordInput).toHaveAttribute('type', 'password')
+  })
 })

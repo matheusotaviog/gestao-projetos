@@ -18,6 +18,28 @@ interface CadastroFormProps {
   onSuccess?: () => void
 }
 
+function validatePassword(pwd: string): string | null {
+  if (!pwd) {
+    return 'A senha é obrigatória.'
+  }
+  if (pwd.length < 8) {
+    return 'A senha deve ter pelo menos 8 caracteres.'
+  }
+  if (!/[a-z]/.test(pwd)) {
+    return 'A senha deve conter pelo menos uma letra minúscula.'
+  }
+  if (!/[A-Z]/.test(pwd)) {
+    return 'A senha deve conter pelo menos uma letra maiúscula.'
+  }
+  if (!/[0-9]/.test(pwd)) {
+    return 'A senha deve conter pelo menos um número.'
+  }
+  if (!/[^A-Za-z0-9]/.test(pwd)) {
+    return 'A senha deve conter pelo menos um caractere especial (ex: !@#$%).'
+  }
+  return null
+}
+
 export function CadastroForm({ onSuccess }: CadastroFormProps) {
   const navigate = useNavigate()
   const [nome, setNome] = useState('')
@@ -43,10 +65,9 @@ export function CadastroForm({ onSuccess }: CadastroFormProps) {
       newErrors.email = 'Informe um endereço de e-mail válido.'
     }
 
-    if (!senha) {
-      newErrors.senha = 'A senha é obrigatória.'
-    } else if (senha.length < 6) {
-      newErrors.senha = 'A senha deve ter pelo menos 6 caracteres.'
+    const senhaError = validatePassword(senha)
+    if (senhaError) {
+      newErrors.senha = senhaError
     }
 
     if (!confirmarSenha) {
@@ -141,7 +162,7 @@ export function CadastroForm({ onSuccess }: CadastroFormProps) {
         value={senha}
         onChange={(e) => setSenha(e.target.value)}
         error={errors.senha}
-        placeholder="Mínimo de 6 caracteres"
+        placeholder="Mínimo 8 caracteres (A-Z, a-z, 0-9, símbolos)"
         autoComplete="new-password"
         disabled={isLoading || Boolean(successMessage)}
         required
