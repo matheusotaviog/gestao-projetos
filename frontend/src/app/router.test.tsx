@@ -61,4 +61,28 @@ describe('roteamento da aplicação', () => {
       }),
     ).toBeInTheDocument()
   })
+
+  it('renderiza a tela de login na rota /login', () => {
+    renderRouter('/login')
+
+    expect(
+      screen.getByRole('heading', {
+        name: 'Entrar',
+      }),
+    ).toBeInTheDocument()
+    expect(screen.getByLabelText('E-mail')).toBeInTheDocument()
+    expect(screen.getByLabelText('Senha')).toBeInTheDocument()
+  })
+
+  it('renderiza a tela de cadastro na rota /cadastro', () => {
+    renderRouter('/cadastro')
+
+    expect(
+      screen.getByRole('heading', {
+        name: 'Criar conta',
+      }),
+    ).toBeInTheDocument()
+    expect(screen.getByLabelText('Nome completo')).toBeInTheDocument()
+    expect(screen.getByLabelText('E-mail')).toBeInTheDocument()
+  })
 })
