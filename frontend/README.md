@@ -113,27 +113,43 @@ src/
 │  └─ router.tsx
 ├─ components/
 │  ├─ layout/
+│  │  ├─ AppShell.module.css
+│  │  └─ AppShell.tsx
 │  └─ ui/
+│     └─ PlaceholderPage.tsx
+├─ features/
+│  └─ auth/
+│     ├─ components/
+│     │  ├─ AuthCard.tsx
+│     │  ├─ AuthLayout.module.css
+│     │  ├─ CadastroForm.tsx
+│     │  ├─ FormInput.tsx
+│     │  └─ LoginForm.tsx
+│     ├─ pages/
+│     │  ├─ CadastroPage.tsx
+│     │  └─ LoginPage.tsx
+│     ├─ services/
+│     │  └─ authService.ts
+│     ├─ tests/
+│     │  ├─ CadastroForm.test.tsx
+│     │  └─ LoginForm.test.tsx
+│     └─ types.ts
 ├─ styles/
 ├─ test/
 └─ main.tsx
 ```
 
-Funcionalidades futuras deverão ser organizadas em `src/features` conforme forem implementadas.
+## Rotas da aplicação
 
-## Rotas reservadas
-
-| Rota | Finalidade |
-|---|---|
-| `/` | Dashboard |
-| `/login` | Autenticação |
-| `/cadastro` | Cadastro de usuário |
-| `/projetos` | Projetos |
-| `/projetos/:projetoId` | Detalhes de um projeto |
-| `/tarefas` | Tarefas |
-| `/cronograma` | Cronograma |
-
-As páginas atuais são provisórias. Elas reservam a navegação sem antecipar funcionalidades de sprints posteriores.
+| Rota | Finalidade | Situação |
+|---|---|---|
+| `/` | Dashboard | Provisório |
+| `/login` | Autenticação (Login) | Implementado (Sprint 2 - RF01) |
+| `/cadastro` | Cadastro de usuário | Implementado (Sprint 2 - RF01) |
+| `/projetos` | Projetos | Provisório |
+| `/projetos/:projetoId` | Detalhes de um projeto | Provisório |
+| `/tarefas` | Tarefas | Provisório |
+| `/cronograma` | Cronograma | Provisório |
 
 ## Verificação antes de um Pull Request
 
@@ -147,11 +163,10 @@ npm run build
 
 As três verificações devem terminar sem erros.
 
-## Fora do escopo da estrutura inicial
+## Fora do escopo desta etapa
 
-- Autenticação funcional
-- Integração com a API
+- Integração completa com as demais entidades do backend (projetos, tarefas, cronogramas)
 - CRUD de projetos e tarefas
 - Cronograma funcional
-- Dashboard com dados reais
+- Dashboard com métricas reais
 - Notificações e lembretes
