@@ -1,6 +1,8 @@
 import { createBrowserRouter, type RouteObject } from 'react-router'
 import { AppShell } from '../components/layout/AppShell'
 import { PlaceholderPage } from '../components/ui/PlaceholderPage'
+import { LoginPage } from '../features/auth/pages/LoginPage'
+import { CadastroPage } from '../features/auth/pages/CadastroPage'
 
 export const routes: RouteObject[] = [
   {
@@ -55,21 +57,11 @@ export const routes: RouteObject[] = [
   },
   {
     path: '/login',
-    element: (
-      <PlaceholderPage
-        title="Entrar"
-        description="A autenticação será implementada em uma tarefa posterior."
-      />
-    ),
+    element: <LoginPage />,
   },
   {
     path: '/cadastro',
-    element: (
-      <PlaceholderPage
-        title="Criar conta"
-        description="O cadastro será implementado em uma tarefa posterior."
-      />
-    ),
+    element: <CadastroPage />,
   },
   {
     path: '*',
