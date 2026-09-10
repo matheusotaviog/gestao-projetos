@@ -1,20 +1,19 @@
 :root,
 [data-theme='default'] {
-  --color-background: #f6f7f9;
+  --color-background: #f8fafc;
   --color-surface: #ffffff;
   --color-input-bg: #ffffff;
-  --color-text: #18202a;
-  --color-text-muted: #667085;
-  --color-border: #dfe3e8;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
 
-  --color-primary: #3157d5;
-  --color-primary-hover: #2544ad;
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
   --color-primary-text: #ffffff;
-  --color-accent: #62929e;
 
-  --color-sidebar: #172033;
+  --color-sidebar: #0f172a;
   --color-sidebar-text: #f8fafc;
-  --color-sidebar-hover: #26334d;
+  --color-sidebar-hover: #1e293b;
 
   --radius-small: 0.375rem;
   --radius-medium: 0.625rem;
@@ -26,40 +25,38 @@
   background: var(--color-background);
 }
 
-[data-theme='dark-teal'] {
-  /* Paleta Coolors: 08323C (Dark Teal), 6D78C1 (Glaucous), F4F5F6 (Platinum), 62929E (Pacific Cyan), AAABA2 (Ash Grey) */
-  --color-background: #08323c;
-  --color-surface: #0e3d48;
-  --color-input-bg: #05232a;
-  --color-text: #f4f5f6;
-  --color-text-muted: #aaaba2;
-  --color-border: #1b5360;
+[data-theme='warm-paper'] {
+  /* Inspirado em ferramentas editoriais e acadêmicas (Obsidian, iA Writer) para leitura prolongada */
+  --color-background: #fbf9f5;
+  --color-surface: #ffffff;
+  --color-input-bg: #fdfcfb;
+  --color-text: #292524;
+  --color-text-muted: #78716c;
+  --color-border: #e7e2d8;
 
-  --color-primary: #6d78c1;
-  --color-primary-hover: #5b66af;
+  --color-primary: #b45309;
+  --color-primary-hover: #92400e;
   --color-primary-text: #ffffff;
-  --color-accent: #62929e;
 
-  --color-sidebar: #052026;
-  --color-sidebar-text: #f4f5f6;
-  --color-sidebar-hover: #0a333d;
+  --color-sidebar: #292524;
+  --color-sidebar-text: #fbf9f5;
+  --color-sidebar-hover: #3f3937;
 }
 
-[data-theme='rich-mahogany'] {
-  /* Paleta Coolors: 3D080D (Rich Mahogany), C29D6D (Camel), F5F3F2 (White Smoke), 9E6268 (Smoky Rose), A2A4AB (Cool Steel) */
-  --color-background: #3d080d;
-  --color-surface: #4e1218;
-  --color-input-bg: #2d060a;
-  --color-text: #f5f3f2;
-  --color-text-muted: #c4b6b7;
-  --color-border: #6f1c24;
+[data-theme='sage-focus'] {
+  /* Inspirado na psicologia de cores para foco cognitivo e redução de estresse (Everforest, Forest) */
+  --color-background: #f3f6f4;
+  --color-surface: #ffffff;
+  --color-input-bg: #fbfdfb;
+  --color-text: #162a22;
+  --color-text-muted: #526b60;
+  --color-border: #d4ded7;
 
-  --color-primary: #c29d6d;
-  --color-primary-hover: #b08b59;
-  --color-primary-text: #2d060a;
-  --color-accent: #9e6268;
+  --color-primary: #236548;
+  --color-primary-hover: #1b5239;
+  --color-primary-text: #ffffff;
 
-  --color-sidebar: #2b0408;
-  --color-sidebar-text: #f5f3f2;
-  --color-sidebar-hover: #400a10;
+  --color-sidebar: #162a22;
+  --color-sidebar-text: #f3f6f4;
+  --color-sidebar-hover: #223c31;
 }

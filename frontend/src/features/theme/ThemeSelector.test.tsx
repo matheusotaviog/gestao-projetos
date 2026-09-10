@@ -17,13 +17,13 @@ describe('ThemeSelector', () => {
     })
     expect(select).toBeInTheDocument()
     expect(
-      screen.getByRole('option', { name: 'Padrão (Azul)' }),
+      screen.getByRole('option', { name: 'Foco Essencial (Slate)' }),
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('option', { name: 'Dark Teal (Oceano)' }),
+      screen.getByRole('option', { name: 'Papel & Leitura (Warm Paper)' }),
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('option', { name: 'Rich Mahogany (Mogno)' }),
+      screen.getByRole('option', { name: 'Sálvia & Concentração (Sage)' }),
     ).toBeInTheDocument()
   })
 
@@ -35,18 +35,18 @@ describe('ThemeSelector', () => {
       name: 'Selecionar tema visual',
     })
 
-    await user.selectOptions(select, 'dark-teal')
+    await user.selectOptions(select, 'warm-paper')
 
     expect(document.documentElement.getAttribute('data-theme')).toBe(
-      'dark-teal',
+      'warm-paper',
     )
-    expect(localStorage.getItem('gestao_projetos_theme')).toBe('dark-teal')
+    expect(localStorage.getItem('gestao_projetos_theme')).toBe('warm-paper')
 
-    await user.selectOptions(select, 'rich-mahogany')
+    await user.selectOptions(select, 'sage-focus')
 
     expect(document.documentElement.getAttribute('data-theme')).toBe(
-      'rich-mahogany',
+      'sage-focus',
     )
-    expect(localStorage.getItem('gestao_projetos_theme')).toBe('rich-mahogany')
+    expect(localStorage.getItem('gestao_projetos_theme')).toBe('sage-focus')
   })
 })

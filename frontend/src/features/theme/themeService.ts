@@ -1,4 +1,4 @@
-export type ThemeId = 'default' | 'dark-teal' | 'rich-mahogany'
+export type ThemeId = 'default' | 'warm-paper' | 'sage-focus'
 
 export interface ThemeOption {
   id: ThemeId
@@ -6,9 +6,9 @@ export interface ThemeOption {
 }
 
 export const THEMES: ThemeOption[] = [
-  { id: 'default', label: 'Padrão (Azul)' },
-  { id: 'dark-teal', label: 'Dark Teal (Oceano)' },
-  { id: 'rich-mahogany', label: 'Rich Mahogany (Mogno)' },
+  { id: 'default', label: 'Foco Essencial (Slate)' },
+  { id: 'warm-paper', label: 'Papel & Leitura (Warm Paper)' },
+  { id: 'sage-focus', label: 'Sálvia & Concentração (Sage)' },
 ]
 
 const THEME_KEY = 'gestao_projetos_theme'
@@ -21,7 +21,7 @@ export const themeService = {
     const saved = localStorage.getItem(THEME_KEY) as ThemeId | null
     if (
       saved &&
-      (saved === 'default' || saved === 'dark-teal' || saved === 'rich-mahogany')
+      (saved === 'default' || saved === 'warm-paper' || saved === 'sage-focus')
     ) {
       return saved
     }
