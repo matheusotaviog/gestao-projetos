@@ -95,7 +95,7 @@
 }
 
 .authButton:hover {
-  background-color: #2544ad;
+  background-color: var(--color-primary-hover, #2544ad);
 }
 
 .logoutButton {

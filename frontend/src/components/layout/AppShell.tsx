@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router'
 import { authService } from '../../features/auth/services/authService'
+import { ThemeSelector } from '../ui/ThemeSelector'
 import styles from './AppShell.module.css'
 
 const navigation = [
@@ -51,6 +52,8 @@ export function AppShell() {
           <span>Gestão de Estudos e Tarefas</span>
 
           <div className={styles.headerActions}>
+            <ThemeSelector />
+
             {isAuthenticated ? (
               <button
                 type="button"

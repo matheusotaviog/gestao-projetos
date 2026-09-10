@@ -17,6 +17,12 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+.cardTopBar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}
+
 .header {
   margin-bottom: 1.75rem;
   text-align: center;
@@ -138,7 +144,7 @@
 }
 
 .button:hover:not(:disabled) {
-  background-color: #2544ad;
+  background-color: var(--color-primary-hover, #2544ad);
 }
 
 .button:disabled {
