@@ -116,24 +116,29 @@ src/
 │  │  ├─ AppShell.module.css
 │  │  └─ AppShell.tsx
 │  └─ ui/
-│     └─ PlaceholderPage.tsx
+│     ├─ PlaceholderPage.tsx
+│     ├─ ThemeSelector.module.css
+│     └─ ThemeSelector.tsx
 ├─ features/
-│  └─ auth/
-│     ├─ components/
-│     │  ├─ AuthCard.tsx
-│     │  ├─ AuthLayout.module.css
-│     │  ├─ CadastroForm.tsx
-│     │  ├─ FormInput.tsx
-│     │  └─ LoginForm.tsx
-│     ├─ pages/
-│     │  ├─ CadastroPage.tsx
-│     │  └─ LoginPage.tsx
-│     ├─ services/
-│     │  └─ authService.ts
-│     ├─ tests/
-│     │  ├─ CadastroForm.test.tsx
-│     │  └─ LoginForm.test.tsx
-│     └─ types.ts
+│  ├─ auth/
+│  │  ├─ components/
+│  │  │  ├─ AuthCard.tsx
+│  │  │  ├─ AuthLayout.module.css
+│  │  │  ├─ CadastroForm.tsx
+│  │  │  ├─ FormInput.tsx
+│  │  │  └─ LoginForm.tsx
+│  │  ├─ pages/
+│  │  │  ├─ CadastroPage.tsx
+│  │  │  └─ LoginPage.tsx
+│  │  ├─ services/
+│  │  │  └─ authService.ts
+│  │  ├─ tests/
+│  │  │  ├─ CadastroForm.test.tsx
+│  │  │  └─ LoginForm.test.tsx
+│  │  └─ types.ts
+│  └─ theme/
+│     ├─ ThemeSelector.test.tsx
+│     └─ themeService.ts
 ├─ styles/
 ├─ test/
 └─ main.tsx
