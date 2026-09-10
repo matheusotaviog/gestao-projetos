@@ -5,6 +5,7 @@
   justify-content: center;
   padding: 1.5rem;
   background-color: var(--color-background);
+  transition: background-color 0.2s ease;
 }
 
 .card {
@@ -14,7 +15,8 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-medium);
   padding: 2.25rem 2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .cardTopBar {
@@ -75,10 +77,10 @@
   padding: 0.625rem 0.75rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-small);
-  background-color: var(--color-surface);
+  background-color: var(--color-input-bg, var(--color-surface));
   color: var(--color-text);
   font-size: 0.9375rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, background-color 0.2s ease;
 }
 
 .inputWrapper {
@@ -121,7 +123,7 @@
 
 .fieldError {
   font-size: 0.8125rem;
-  color: #d92d20;
+  color: #f04438;
   margin-top: 0.125rem;
 }
 
@@ -133,7 +135,7 @@
   gap: 0.5rem;
   padding: 0.75rem 1rem;
   background-color: var(--color-primary);
-  color: #ffffff;
+  color: var(--color-primary-text, #ffffff);
   border: none;
   border-radius: var(--radius-small);
   font-size: 0.9375rem;
@@ -153,9 +155,9 @@
 }
 
 .alertError {
-  background-color: #fef3f2;
-  border: 1px solid #fee4e2;
-  color: #b42318;
+  background-color: rgba(217, 45, 32, 0.12);
+  border: 1px solid rgba(217, 45, 32, 0.35);
+  color: #f04438;
   border-radius: var(--radius-small);
   padding: 0.75rem 1rem;
   font-size: 0.875rem;
@@ -163,9 +165,9 @@
 }
 
 .alertSuccess {
-  background-color: #edfcf2;
-  border: 1px solid #d3f8df;
-  color: #067647;
+  background-color: rgba(18, 183, 106, 0.12);
+  border: 1px solid rgba(18, 183, 106, 0.35);
+  color: #12b76a;
   border-radius: var(--radius-small);
   padding: 0.75rem 1rem;
   font-size: 0.875rem;
@@ -190,7 +192,7 @@
 }
 
 .passwordHints {
-  background-color: var(--color-background);
+  background-color: var(--color-input-bg, var(--color-background));
   border: 1px solid var(--color-border);
   border-radius: var(--radius-small);
   padding: 0.75rem;
@@ -224,7 +226,7 @@
 }
 
 .hintMet {
-  color: #067647;
+  color: #12b76a;
   font-weight: 500;
 }
 

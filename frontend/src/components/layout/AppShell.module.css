@@ -11,6 +11,7 @@
   padding: 1.5rem;
   color: var(--color-sidebar-text);
   background: var(--color-sidebar);
+  transition: background-color 0.2s ease;
 }
 
 .brand {
@@ -34,6 +35,7 @@
   color: inherit;
   text-decoration: none;
   border-radius: var(--radius-medium);
+  transition: background-color 0.15s ease;
 }
 
 .link:hover {
@@ -42,10 +44,15 @@
 
 .activeLink {
   background: var(--color-primary);
+  color: var(--color-primary-text, #ffffff);
+  font-weight: 600;
 }
 
 .page {
   min-width: 0;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .header {
@@ -56,6 +63,8 @@
   padding: 0 2rem;
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .headerActions {
@@ -85,7 +94,7 @@
   padding: 0.5rem 0.875rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #ffffff;
+  color: var(--color-primary-text, #ffffff);
   background-color: var(--color-primary);
   border: none;
   border-radius: var(--radius-small);

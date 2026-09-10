@@ -2,12 +2,16 @@
 [data-theme='default'] {
   --color-background: #f6f7f9;
   --color-surface: #ffffff;
+  --color-input-bg: #ffffff;
   --color-text: #18202a;
   --color-text-muted: #667085;
   --color-border: #dfe3e8;
 
   --color-primary: #3157d5;
   --color-primary-hover: #2544ad;
+  --color-primary-text: #ffffff;
+  --color-accent: #62929e;
+
   --color-sidebar: #172033;
   --color-sidebar-text: #f8fafc;
   --color-sidebar-hover: #26334d;
@@ -23,29 +27,39 @@
 }
 
 [data-theme='dark-teal'] {
-  --color-background: #f4f5f6;
-  --color-surface: #ffffff;
-  --color-text: #08323c;
-  --color-text-muted: #49636b;
-  --color-border: #ccd4d6;
+  /* Paleta Coolors: 08323C (Dark Teal), 6D78C1 (Glaucous), F4F5F6 (Platinum), 62929E (Pacific Cyan), AAABA2 (Ash Grey) */
+  --color-background: #08323c;
+  --color-surface: #0e3d48;
+  --color-input-bg: #05232a;
+  --color-text: #f4f5f6;
+  --color-text-muted: #aaaba2;
+  --color-border: #1b5360;
 
-  --color-primary: #0e5666;
-  --color-primary-hover: #083944;
-  --color-sidebar: #08323c;
+  --color-primary: #6d78c1;
+  --color-primary-hover: #5b66af;
+  --color-primary-text: #ffffff;
+  --color-accent: #62929e;
+
+  --color-sidebar: #052026;
   --color-sidebar-text: #f4f5f6;
-  --color-sidebar-hover: #124451;
+  --color-sidebar-hover: #0a333d;
 }
 
 [data-theme='rich-mahogany'] {
-  --color-background: #f5f3f2;
-  --color-surface: #ffffff;
-  --color-text: #3d080d;
-  --color-text-muted: #785a5d;
-  --color-border: #ded7d6;
+  /* Paleta Coolors: 3D080D (Rich Mahogany), C29D6D (Camel), F5F3F2 (White Smoke), 9E6268 (Smoky Rose), A2A4AB (Cool Steel) */
+  --color-background: #3d080d;
+  --color-surface: #4e1218;
+  --color-input-bg: #2d060a;
+  --color-text: #f5f3f2;
+  --color-text-muted: #c4b6b7;
+  --color-border: #6f1c24;
 
-  --color-primary: #8a2430;
-  --color-primary-hover: #691721;
-  --color-sidebar: #3d080d;
+  --color-primary: #c29d6d;
+  --color-primary-hover: #b08b59;
+  --color-primary-text: #2d060a;
+  --color-accent: #9e6268;
+
+  --color-sidebar: #2b0408;
   --color-sidebar-text: #f5f3f2;
-  --color-sidebar-hover: #54141b;
+  --color-sidebar-hover: #400a10;
 }
