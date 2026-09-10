@@ -12,11 +12,11 @@ interface AuthCardProps {
 export function AuthCard({ title, subtitle, children, footer }: AuthCardProps) {
   return (
     <div className={styles.container}>
-      <main className={styles.card}>
-        <div className={styles.cardTopBar}>
-          <ThemeSelector />
-        </div>
+      <div className={styles.pageTopBar}>
+        <ThemeSelector />
+      </div>
 
+      <main className={styles.card}>
         <header className={styles.header}>
           <div className={styles.brand}>Processos</div>
           <h1 className={styles.title}>{title}</h1>

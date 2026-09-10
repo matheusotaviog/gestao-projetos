@@ -6,9 +6,9 @@ export interface ThemeOption {
 }
 
 export const THEMES: ThemeOption[] = [
-  { id: 'default', label: 'Foco Essencial (Slate)' },
-  { id: 'warm-paper', label: 'Papel & Leitura (Warm Paper)' },
-  { id: 'sage-focus', label: 'Sálvia & Concentração (Sage)' },
+  { id: 'default', label: 'Padrão' },
+  { id: 'warm-paper', label: 'Papel' },
+  { id: 'sage-focus', label: 'Sálvia' },
 ]
 
 const THEME_KEY = 'gestao_projetos_theme'

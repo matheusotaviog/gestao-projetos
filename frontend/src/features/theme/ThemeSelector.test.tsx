@@ -17,13 +17,13 @@ describe('ThemeSelector', () => {
     })
     expect(select).toBeInTheDocument()
     expect(
-      screen.getByRole('option', { name: 'Foco Essencial (Slate)' }),
+      screen.getByRole('option', { name: 'Padrão' }),
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('option', { name: 'Papel & Leitura (Warm Paper)' }),
+      screen.getByRole('option', { name: 'Papel' }),
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('option', { name: 'Sálvia & Concentração (Sage)' }),
+      screen.getByRole('option', { name: 'Sálvia' }),
     ).toBeInTheDocument()
   })
 
