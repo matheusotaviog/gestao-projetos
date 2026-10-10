@@ -1,0 +1,192 @@
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  padding: 1rem;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-medium);
+  transition: border-color 0.15s ease, background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.item:hover {
+  border-color: #cbd5e1;
+}
+
+.itemConcluida {
+  background-color: rgba(241, 245, 249, 0.4);
+}
+
+.checkboxWrapper {
+  padding-top: 0.125rem;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  background-color: var(--color-input-bg);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-small);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.checkbox:hover {
+  border-color: var(--color-primary);
+}
+
+.checkboxChecked {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-primary-text, #ffffff);
+}
+
+.checkIcon {
+  font-size: 0.75rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.titulo {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text);
+  word-break: break-word;
+}
+
+.tituloConcluido {
+  color: var(--color-text-muted);
+  text-decoration: line-through;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  border-radius: 9999px;
+}
+
+.statusPendente {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.statusConcluido {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.observacao {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-top: 0.25rem;
+}
+
+.prazoBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--radius-small);
+}
+
+.prazoNormal {
+  color: var(--color-text-muted);
+  background-color: var(--color-background);
+}
+
+.prazoHoje {
+  color: #b45309;
+  background-color: #fef3c7;
+  font-weight: 600;
+}
+
+.prazoAtrasado {
+  color: #b91c1c;
+  background-color: #fee2e2;
+  font-weight: 600;
+}
+
+.prazoConcluido {
+  color: var(--color-text-muted);
+  background-color: transparent;
+  text-decoration: line-through;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.actionButton {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.actionButton:hover {
+  color: var(--color-text);
+  background-color: var(--color-background);
+  border-color: #cbd5e1;
+}
+
+.actionDelete:hover {
+  color: #dc2626;
+  border-color: #fca5a5;
+  background-color: #fef2f2;
+}
+
+@media (max-width: 36rem) {
+  .item {
+    flex-direction: column;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: flex-end;
+    padding-top: 0.5rem;
+    border-top: 1px dashed var(--color-border);
+  }
+}

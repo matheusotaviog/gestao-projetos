@@ -45,7 +45,7 @@ describe('roteamento da aplicação', () => {
 
     expect(
       screen.getByRole('heading', {
-        name: 'Projetos',
+        name: 'Projetos e Matérias',
       }),
     ).toBeInTheDocument()
 
@@ -60,5 +60,52 @@ describe('roteamento da aplicação', () => {
         name: 'Página não encontrada',
       }),
     ).toBeInTheDocument()
+  })
+
+  it('renderiza a tela de login na rota /login', () => {
+    renderRouter('/login')
+
+    expect(
+      screen.getByRole('heading', {
+        name: 'Entrar',
+      }),
+    ).toBeInTheDocument()
+    expect(screen.getByLabelText('E-mail')).toBeInTheDocument()
+    expect(screen.getByLabelText('Senha')).toBeInTheDocument()
+  })
+
+  it('renderiza a tela de cadastro na rota /cadastro', () => {
+    renderRouter('/cadastro')
+
+    expect(
+      screen.getByRole('heading', {
+        name: 'Criar conta',
+      }),
+    ).toBeInTheDocument()
+    expect(screen.getByLabelText('Nome completo')).toBeInTheDocument()
+    expect(screen.getByLabelText('E-mail')).toBeInTheDocument()
+  })
+
+  it('exibe links de Entrar e Cadastrar no cabeçalho quando não autenticado', () => {
+    localStorage.clear()
+    renderRouter('/')
+
+    expect(screen.getByRole('link', { name: 'Entrar' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Cadastrar' })).toBeInTheDocument()
+  })
+
+  it('exibe botão de Sair no cabeçalho quando autenticado e permite deslogar', async () => {
+    const user = userEvent.setup()
+    localStorage.setItem('gestao_projetos_token', 'token-valido')
+
+    renderRouter('/')
+
+    const logoutBtn = screen.getByRole('button', { name: 'Sair' })
+    expect(logoutBtn).toBeInTheDocument()
+
+    await user.click(logoutBtn)
+
+    expect(localStorage.getItem('gestao_projetos_token')).toBeNull()
+    expect(screen.getByRole('heading', { name: 'Entrar' })).toBeInTheDocument()
   })
 })

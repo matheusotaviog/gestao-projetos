@@ -1,0 +1,73 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.message {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.cancelButton {
+  padding: 0.5rem 0.875rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.cancelButton:hover:not(:disabled) {
+  background-color: var(--color-background);
+}
+
+.confirmButton {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-primary-text, #ffffff);
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-small);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.confirmButton:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+}
+
+.destructiveButton {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: #dc2626;
+  border: none;
+  border-radius: var(--radius-small);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.destructiveButton:hover:not(:disabled) {
+  background-color: #b91c1c;
+}
+
+.cancelButton:disabled,
+.confirmButton:disabled,
+.destructiveButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

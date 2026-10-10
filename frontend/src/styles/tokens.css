@@ -1,14 +1,19 @@
-:root {
-  --color-background: #f6f7f9;
+:root,
+[data-theme='default'] {
+  --color-background: #f8fafc;
   --color-surface: #ffffff;
-  --color-text: #18202a;
-  --color-text-muted: #667085;
-  --color-border: #dfe3e8;
+  --color-input-bg: #ffffff;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
 
-  --color-primary: #3157d5;
-  --color-sidebar: #172033;
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-text: #ffffff;
+
+  --color-sidebar: #0f172a;
   --color-sidebar-text: #f8fafc;
-  --color-sidebar-hover: #26334d;
+  --color-sidebar-hover: #1e293b;
 
   --radius-small: 0.375rem;
   --radius-medium: 0.625rem;
@@ -18,4 +23,40 @@
     sans-serif;
   color: var(--color-text);
   background: var(--color-background);
+}
+
+[data-theme='warm-paper'] {
+  /* Inspirado em ferramentas editoriais e acadêmicas (Obsidian, iA Writer) para leitura prolongada */
+  --color-background: #fbf9f5;
+  --color-surface: #ffffff;
+  --color-input-bg: #fdfcfb;
+  --color-text: #292524;
+  --color-text-muted: #78716c;
+  --color-border: #e7e2d8;
+
+  --color-primary: #b45309;
+  --color-primary-hover: #92400e;
+  --color-primary-text: #ffffff;
+
+  --color-sidebar: #292524;
+  --color-sidebar-text: #fbf9f5;
+  --color-sidebar-hover: #3f3937;
+}
+
+[data-theme='sage-focus'] {
+  /* Inspirado na psicologia de cores para foco cognitivo e redução de estresse (Everforest, Forest) */
+  --color-background: #f3f6f4;
+  --color-surface: #ffffff;
+  --color-input-bg: #fbfdfb;
+  --color-text: #162a22;
+  --color-text-muted: #526b60;
+  --color-border: #d4ded7;
+
+  --color-primary: #236548;
+  --color-primary-hover: #1b5239;
+  --color-primary-text: #ffffff;
+
+  --color-sidebar: #162a22;
+  --color-sidebar-text: #f3f6f4;
+  --color-sidebar-hover: #223c31;
 }
