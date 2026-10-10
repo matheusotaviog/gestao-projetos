@@ -45,7 +45,7 @@ describe('roteamento da aplicação', () => {
 
     expect(
       screen.getByRole('heading', {
-        name: 'Projetos',
+        name: 'Projetos e Matérias',
       }),
     ).toBeInTheDocument()
 

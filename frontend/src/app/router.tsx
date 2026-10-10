@@ -3,6 +3,8 @@ import { AppShell } from '../components/layout/AppShell'
 import { PlaceholderPage } from '../components/ui/PlaceholderPage'
 import { LoginPage } from '../features/auth/pages/LoginPage'
 import { CadastroPage } from '../features/auth/pages/CadastroPage'
+import { ProjectsPage } from '../features/projects/pages/ProjectsPage'
+import { ProjectDetailsPage } from '../features/projects/pages/ProjectDetailsPage'
 
 export const routes: RouteObject[] = [
   {
@@ -19,21 +21,11 @@ export const routes: RouteObject[] = [
       },
       {
         path: 'projetos',
-        element: (
-          <PlaceholderPage
-            title="Projetos"
-            description="A criação e o gerenciamento de projetos serão implementados aqui."
-          />
-        ),
+        element: <ProjectsPage />,
       },
       {
         path: 'projetos/:projetoId',
-        element: (
-          <PlaceholderPage
-            title="Detalhes do projeto"
-            description="As informações e tarefas do projeto selecionado serão exibidas aqui."
-          />
-        ),
+        element: <ProjectDetailsPage />,
       },
       {
         path: 'tarefas',
