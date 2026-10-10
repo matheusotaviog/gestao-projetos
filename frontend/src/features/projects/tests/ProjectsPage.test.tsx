@@ -136,4 +136,32 @@ describe('ProjectsPage (RF02)', () => {
     expect(screen.getByText('Algoritmos e Estruturas de Dados')).toBeInTheDocument()
     expect(screen.queryByText('Banco de Dados Relacional')).not.toBeInTheDocument()
   })
+
+  it('exibe notificação de sucesso e permite desfazer a exclusão do projeto', async () => {
+    const user = userEvent.setup()
+    renderProjectsPage()
+
+    await waitFor(() => {
+      expect(screen.getByText('Banco de Dados Relacional')).toBeInTheDocument()
+    })
+
+    const deleteBtn = screen.getByLabelText('Excluir projeto Banco de Dados Relacional')
+    await user.click(deleteBtn)
+
+    await user.click(screen.getByRole('button', { name: 'Sim, excluir projeto' }))
+
+    await waitFor(() => {
+      expect(screen.queryByText('Banco de Dados Relacional')).not.toBeInTheDocument()
+    })
+
+    expect(screen.getByText('Projeto excluído com sucesso.')).toBeInTheDocument()
+    const undoBtn = screen.getByRole('button', { name: 'Desfazer' })
+    expect(undoBtn).toBeInTheDocument()
+
+    await user.click(undoBtn)
+
+    await waitFor(() => {
+      expect(screen.getByText('Banco de Dados Relacional')).toBeInTheDocument()
+    })
+  })
 })

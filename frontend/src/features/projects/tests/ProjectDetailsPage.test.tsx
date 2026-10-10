@@ -134,4 +134,32 @@ describe('ProjectDetailsPage (RF02, RF04)', () => {
       expect(screen.queryByText('Implementar busca binária em TypeScript')).not.toBeInTheDocument()
     })
   })
+
+  it('exibe notificação de sucesso e permite desfazer a exclusão da tarefa', async () => {
+    const user = userEvent.setup()
+    renderProjectDetails('1')
+
+    await waitFor(() => {
+      expect(screen.getByText('Implementar busca binária em TypeScript')).toBeInTheDocument()
+    })
+
+    const deleteBtn = screen.getByLabelText('Excluir tarefa Implementar busca binária em TypeScript')
+    await user.click(deleteBtn)
+
+    await user.click(screen.getByRole('button', { name: 'Sim, excluir tarefa' }))
+
+    await waitFor(() => {
+      expect(screen.queryByText('Implementar busca binária em TypeScript')).not.toBeInTheDocument()
+    })
+
+    expect(screen.getByText('Tarefa excluída com sucesso.')).toBeInTheDocument()
+    const undoBtn = screen.getByRole('button', { name: 'Desfazer' })
+    expect(undoBtn).toBeInTheDocument()
+
+    await user.click(undoBtn)
+
+    await waitFor(() => {
+      expect(screen.getByText('Implementar busca binária em TypeScript')).toBeInTheDocument()
+    })
+  })
 })

@@ -88,4 +88,16 @@ describe('taskService', () => {
     const tarefasProjeto2 = await taskService.listarPorProjeto(2)
     expect(tarefasProjeto2.length).toBeGreaterThan(0)
   })
+
+  it('restaura tarefa individual excluída com sucesso', async () => {
+    const tarefasAntes = await taskService.listarPorProjeto(1)
+    const primeira = tarefasAntes[0]
+
+    await taskService.excluir(primeira.id)
+    expect((await taskService.listarPorProjeto(1)).some((t) => t.id === primeira.id)).toBe(false)
+
+    await taskService.restaurar(primeira)
+    const restauradas = await taskService.listarPorProjeto(1)
+    expect(restauradas.some((t) => t.id === primeira.id)).toBe(true)
+  })
 })

@@ -8,6 +8,7 @@ import { TaskList } from '../../tasks/components/TaskList'
 import { TaskFormModal } from '../../tasks/components/TaskFormModal'
 import { ProjectFormModal } from '../components/ProjectFormModal'
 import { ConfirmDialog } from '../../../components/ui/ConfirmDialog'
+import { Toast } from '../../../components/ui/Toast'
 import styles from './ProjectDetailsPage.module.css'
 
 function formatarData(dataIso?: string): string {
@@ -33,18 +34,22 @@ export function ProjectDetailsPage() {
   const [carregando, setCarregando] = useState(true)
   const [erro, setErro] = useState<string | null>(null)
 
-  // Modais de Projeto
   const [modalEditarProjetoAberto, setModalEditarProjetoAberto] = useState(false)
   const [salvandoProjeto, setSalvandoProjeto] = useState(false)
   const [confirmarExclusaoProjeto, setConfirmarExclusaoProjeto] = useState(false)
   const [excluindoProjeto, setExcluindoProjeto] = useState(false)
 
-  // Modais de Tarefa (RF04)
   const [modalTarefaAberto, setModalTarefaAberto] = useState(false)
   const [tarefaEmEdicao, setTarefaEmEdicao] = useState<Tarefa | null>(null)
   const [salvandoTarefa, setSalvandoTarefa] = useState(false)
   const [tarefaParaExcluir, setTarefaParaExcluir] = useState<Tarefa | null>(null)
   const [excluindoTarefa, setExcluindoTarefa] = useState(false)
+
+  const [toast, setToast] = useState<{
+    message: string
+    actionLabel?: string
+    onAction?: () => void
+  } | null>(null)
 
   const idInvalido = isNaN(idNumerico)
 
@@ -109,16 +114,24 @@ export function ProjectDetailsPage() {
 
   async function handleExcluirProjeto() {
     if (!projeto) return
+    const proj = projeto
+    const tarefasDoProjeto = tarefas
     setExcluindoProjeto(true)
     try {
-      await projectService.excluir(projeto.id)
-      navigate('/projetos')
+      await projectService.excluir(proj.id)
+      navigate('/projetos', {
+        state: {
+          toast: {
+            projeto: proj,
+            tarefas: tarefasDoProjeto,
+          },
+        },
+      })
     } finally {
       setExcluindoProjeto(false)
     }
   }
 
-  // Ações de Tarefa (RF04)
   async function handleToggleStatusTarefa(id: number) {
     try {
       await taskService.alternarStatus(id)
@@ -155,11 +168,21 @@ export function ProjectDetailsPage() {
 
   async function handleConfirmarExcluirTarefa() {
     if (!tarefaParaExcluir) return
+    const tarefaRemovida = tarefaParaExcluir
     setExcluindoTarefa(true)
     try {
-      await taskService.excluir(tarefaParaExcluir.id)
+      await taskService.excluir(tarefaRemovida.id)
       setTarefaParaExcluir(null)
       await recarregar()
+
+      setToast({
+        message: 'Tarefa excluída com sucesso.',
+        actionLabel: 'Desfazer',
+        onAction: async () => {
+          await taskService.restaurar(tarefaRemovida)
+          await recarregar()
+        },
+      })
     } finally {
       setExcluindoTarefa(false)
     }
@@ -233,13 +256,12 @@ export function ProjectDetailsPage() {
         </div>
       </header>
 
-      {/* Seção de Tarefas do Projeto (RF04) */}
       <section className={styles.tasksSection}>
         <div className={styles.sectionHeader}>
           <div>
             <h2 className={styles.sectionTitle}>Tarefas do Projeto</h2>
             <p className={styles.sectionSubtitle}>
-              Cadastre tarefas para organizar as atividades desta matéria (RF04).
+              Cadastre tarefas para organizar as atividades desta matéria.
             </p>
           </div>
         </div>
@@ -253,7 +275,6 @@ export function ProjectDetailsPage() {
         />
       </section>
 
-      {/* Modal de Edição de Projeto (RF02) */}
       <ProjectFormModal
         isOpen={modalEditarProjetoAberto}
         onClose={() => setModalEditarProjetoAberto(false)}
@@ -262,7 +283,6 @@ export function ProjectDetailsPage() {
         isLoading={salvandoProjeto}
       />
 
-      {/* Confirmação de Exclusão de Projeto (RF02) */}
       <ConfirmDialog
         isOpen={confirmarExclusaoProjeto}
         onClose={() => setConfirmarExclusaoProjeto(false)}
@@ -275,7 +295,6 @@ export function ProjectDetailsPage() {
         isDestructive
       />
 
-      {/* Modal de Criação / Edição de Tarefa (RF04) */}
       <TaskFormModal
         isOpen={modalTarefaAberto}
         onClose={() => setModalTarefaAberto(false)}
@@ -284,7 +303,6 @@ export function ProjectDetailsPage() {
         isLoading={salvandoTarefa}
       />
 
-      {/* Confirmação de Exclusão de Tarefa (RF04) */}
       <ConfirmDialog
         isOpen={Boolean(tarefaParaExcluir)}
         onClose={() => setTarefaParaExcluir(null)}
@@ -296,6 +314,15 @@ export function ProjectDetailsPage() {
         isLoading={excluindoTarefa}
         isDestructive
       />
+
+      {toast && (
+        <Toast
+          message={toast.message}
+          actionLabel={toast.actionLabel}
+          onAction={toast.onAction}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   )
 }

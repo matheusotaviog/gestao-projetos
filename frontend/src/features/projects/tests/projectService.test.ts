@@ -58,4 +58,20 @@ describe('projectService (RF02)', () => {
     const tarefasProjeto1 = await taskService.listarPorProjeto(1)
     expect(tarefasProjeto1.length).toBe(0)
   })
+
+  it('restaura projeto excluído e suas tarefas associadas', async () => {
+    const todosAntes = await projectService.listar()
+    const proj1 = todosAntes.find((p) => p.id === 1)!
+    const tarefasProj1 = await taskService.listarPorProjeto(1)
+
+    await projectService.excluir(1)
+    expect((await projectService.listar()).some((p) => p.id === 1)).toBe(false)
+
+    await projectService.restaurar(proj1, tarefasProj1)
+
+    const todosDepois = await projectService.listar()
+    const projRestaurado = todosDepois.find((p) => p.id === 1)
+    expect(projRestaurado).toBeDefined()
+    expect(projRestaurado?.totalTarefas).toBe(tarefasProj1.length)
+  })
 })

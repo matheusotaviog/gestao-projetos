@@ -1,4 +1,5 @@
 import type { Projeto, ProjetoComTarefas, ProjetoInput } from '../types'
+import type { Tarefa } from '../../tasks/types'
 import { taskService } from '../../tasks/services/taskService'
 import { authService } from '../../auth/services/authService'
 
@@ -213,6 +214,25 @@ export const projectService = {
 
     // Remove tarefas associadas ao projeto (efeito ON DELETE CASCADE)
     await taskService.excluirPorProjeto(id)
+  },
+
+  async restaurar(projeto: Projeto, tarefas?: Tarefa[]): Promise<ProjetoComTarefas> {
+    const projetos = getStoredProjects()
+    if (!projetos.some((p) => p.id === projeto.id)) {
+      projetos.push(projeto)
+      projetos.sort((a, b) => a.id - b.id)
+      saveStoredProjects(projetos)
+    }
+
+    if (tarefas && tarefas.length > 0) {
+      await taskService.restaurarMuitas(tarefas)
+    }
+
+    const tarefasDoProjeto = await taskService.listarPorProjeto(projeto.id)
+    return {
+      ...projeto,
+      totalTarefas: tarefasDoProjeto.length,
+    }
   },
 
   resetMock(): void {

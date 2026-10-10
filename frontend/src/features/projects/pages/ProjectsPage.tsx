@@ -1,23 +1,26 @@
 import { useState, useEffect, useMemo } from 'react'
+import { useLocation } from 'react-router'
 import type { ProjetoComTarefas, ProjetoInput } from '../types'
+import type { Tarefa } from '../../tasks/types'
 import { projectService } from '../services/projectService'
+import { taskService } from '../../tasks/services/taskService'
 import { ProjectCard } from '../components/ProjectCard'
 import { ProjectFormModal } from '../components/ProjectFormModal'
 import { ConfirmDialog } from '../../../components/ui/ConfirmDialog'
+import { Toast } from '../../../components/ui/Toast'
 import styles from './ProjectsPage.module.css'
 
 export function ProjectsPage() {
+  const location = useLocation()
   const [projetos, setProjetos] = useState<ProjetoComTarefas[]>([])
   const [carregando, setCarregando] = useState(true)
   const [erro, setErro] = useState<string | null>(null)
   const [busca, setBusca] = useState('')
 
-  // Estado para Modal de Criação / Edição de Projeto (RF02)
   const [modalFormAberto, setModalFormAberto] = useState(false)
   const [projetoEmEdicao, setProjetoEmEdicao] = useState<ProjetoComTarefas | null>(null)
   const [salvandoProjeto, setSalvandoProjeto] = useState(false)
 
-  // Estado para Confirmação de Exclusão (RF02)
   const [projetoParaExcluir, setProjetoParaExcluir] = useState<ProjetoComTarefas | null>(null)
   const [excluindoProjeto, setExcluindoProjeto] = useState(false)
 
@@ -29,6 +32,31 @@ export function ProjectsPage() {
       setErro(err instanceof Error ? err.message : 'Erro ao carregar projetos.')
     }
   }
+
+  const [toast, setToast] = useState<{
+    message: string
+    actionLabel?: string
+    onAction?: () => void
+  } | null>(() => {
+    const stateToast = (
+      location.state as {
+        toast?: { projeto: ProjetoComTarefas; tarefas: Tarefa[] }
+      } | null
+    )?.toast
+
+    if (stateToast?.projeto) {
+      return {
+        message: 'Projeto excluído com sucesso.',
+        actionLabel: 'Desfazer',
+        onAction: async () => {
+          await projectService.restaurar(stateToast.projeto, stateToast.tarefas)
+          const dados = await projectService.listar()
+          setProjetos(dados)
+        },
+      }
+    }
+    return null
+  })
 
   useEffect(() => {
     let ativo = true
@@ -51,6 +79,12 @@ export function ProjectsPage() {
       ativo = false
     }
   }, [])
+
+  useEffect(() => {
+    if (location.state) {
+      window.history.replaceState({}, document.title)
+    }
+  }, [location.state])
 
   // Filtragem por busca
   const projetosFiltrados = useMemo(() => {
@@ -89,11 +123,22 @@ export function ProjectsPage() {
 
   async function handleConfirmarExclusao() {
     if (!projetoParaExcluir) return
+    const proj = projetoParaExcluir
     setExcluindoProjeto(true)
     try {
-      await projectService.excluir(projetoParaExcluir.id)
+      const tarefasDoProjeto = await taskService.listarPorProjeto(proj.id)
+      await projectService.excluir(proj.id)
       setProjetoParaExcluir(null)
       await recarregar()
+
+      setToast({
+        message: 'Projeto excluído com sucesso.',
+        actionLabel: 'Desfazer',
+        onAction: async () => {
+          await projectService.restaurar(proj, tarefasDoProjeto)
+          await recarregar()
+        },
+      })
     } finally {
       setExcluindoProjeto(false)
     }
@@ -105,7 +150,7 @@ export function ProjectsPage() {
         <div>
           <h1 className={styles.title}>Projetos e Matérias</h1>
           <p className={styles.subtitle}>
-            Gerenciamento de projetos de estudo e acompanhamento de tarefas (RF02).
+            Gerenciamento de disciplinas e projetos de estudo.
           </p>
         </div>
         <button
@@ -186,7 +231,6 @@ export function ProjectsPage() {
         </div>
       )}
 
-      {/* Modal de Criação / Edição de Projeto (RF02) */}
       <ProjectFormModal
         isOpen={modalFormAberto}
         onClose={() => setModalFormAberto(false)}
@@ -195,7 +239,6 @@ export function ProjectsPage() {
         isLoading={salvandoProjeto}
       />
 
-      {/* Modal de Confirmação de Exclusão (RF02) */}
       <ConfirmDialog
         isOpen={Boolean(projetoParaExcluir)}
         onClose={() => setProjetoParaExcluir(null)}
@@ -207,6 +250,15 @@ export function ProjectsPage() {
         isLoading={excluindoProjeto}
         isDestructive
       />
+
+      {toast && (
+        <Toast
+          message={toast.message}
+          actionLabel={toast.actionLabel}
+          onAction={toast.onAction}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   )
 }

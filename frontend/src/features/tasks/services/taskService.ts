@@ -239,6 +239,28 @@ export const taskService = {
     saveStoredTasks(filtered)
   },
 
+  async restaurar(tarefa: Tarefa): Promise<Tarefa> {
+    const tasks = getStoredTasks()
+    if (!tasks.some((t) => t.id === tarefa.id)) {
+      tasks.push(tarefa)
+      tasks.sort((a, b) => a.id - b.id)
+      saveStoredTasks(tasks)
+    }
+    return tarefa
+  },
+
+  async restaurarMuitas(tarefasParaRestaurar: Tarefa[]): Promise<void> {
+    const tasks = getStoredTasks()
+    const idsExistentes = new Set(tasks.map((t) => t.id))
+    for (const t of tarefasParaRestaurar) {
+      if (!idsExistentes.has(t.id)) {
+        tasks.push(t)
+      }
+    }
+    tasks.sort((a, b) => a.id - b.id)
+    saveStoredTasks(tasks)
+  },
+
   resetMock(): void {
     localStorage.removeItem(TASKS_STORAGE_KEY)
   },
