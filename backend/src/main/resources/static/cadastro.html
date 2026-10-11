@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Gestão de Projetos</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .campo {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background: #105cff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        #mensagem {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Criar conta</h1>
+
+    <form id="cadastroForm">
+
+        <div class="campo">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" required>
+        </div>
+
+        <div class="campo">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" required>
+        </div>
+
+        <div class="campo">
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" required>
+        </div>
+
+        <button type="submit">Cadastrar</button>
+
+    </form>
+
+    <div id="mensagem"></div>
+
+</div>
+
+<script>
+
+    document.getElementById("cadastroForm").addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+        const nome = document.getElementById("nome").value;
+        const email = document.getElementById("email").value;
+        const senha = document.getElementById("senha").value;
+
+        const usuario = {
+            nome: nome,
+            email: email,
+            senha: senha
+        };
+
+        try {
+
+            const resposta = await fetch("/usuarios", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(usuario)
+            });
+
+            if (resposta.ok) {
+
+                const resultado = await resposta.json();
+
+                document.getElementById("mensagem").textContent =
+                    "Cadastro realizado com sucesso!";
+
+                document.getElementById("cadastroForm").reset();
+
+            } else {
+
+                document.getElementById("mensagem").textContent =
+                    "Erro ao realizar cadastro.";
+
+            }
+
+        } catch (erro) {
+
+            document.getElementById("mensagem").textContent =
+                "Não foi possível conectar ao servidor.";
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>
