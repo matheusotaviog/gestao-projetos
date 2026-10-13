@@ -31,8 +31,19 @@ public class SecurityConfig {
                 )
             )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
-                .requestMatchers(HttpMethod.POST, "/usuarios/login").permitAll()
+                // Permitir acesso público aos endpoints de usuário (teste)
+                .requestMatchers(HttpMethod.GET, "/api/usuarios").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/usuarios/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/api/usuarios/**").permitAll()
+                .requestMatchers(HttpMethod.DELETE, "/api/usuarios/**").permitAll()
+                // Permitir acesso público aos endpoints de projeto (teste)
+                .requestMatchers(HttpMethod.GET, "/api/projetos").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/projetos/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/projetos").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/api/projetos/**").permitAll()
+                .requestMatchers(HttpMethod.DELETE, "/api/projetos/**").permitAll()
+                // Outros endpoints requerem autenticação
                 .anyRequest().authenticated()
             )
             .addFilterBefore(
