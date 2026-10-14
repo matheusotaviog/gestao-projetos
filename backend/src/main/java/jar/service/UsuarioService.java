@@ -3,6 +3,7 @@ package jar.service;
 import jar.entity.Usuario;
 import jar.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,6 +13,9 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository repository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // Listar todos
     public List<Usuario> listarTodos() {
@@ -39,6 +43,7 @@ public class UsuarioService {
         if (repository.findByEmail(usuario.getEmail()) != null) {
             throw new RuntimeException("Email já está registrado: " + usuario.getEmail());
         }
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         usuario.setDataCriacao(LocalDateTime.now());
         return repository.save(usuario);
     }
