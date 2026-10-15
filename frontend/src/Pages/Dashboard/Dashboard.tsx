@@ -5,7 +5,7 @@ const features = [
     eyebrow: 'Projetos',
     title: 'Todos os seus projetos em um lugar.',
     description:
-      'Crie projetos de estudo ou de trabalho, organize a descrição e acompanhe o andamento de cada um.',
+      'Mostre o preview de projetos como um portifólio.',
     preview: [
       { label: 'Maratona de programação', value: 68 },
       { label: 'Estudo de banco de dados', value: 35 },
@@ -35,6 +35,8 @@ const features = [
     ],
   },
 ]
+
+
 
 function Dashboard() {
   return (
@@ -102,7 +104,7 @@ function Dashboard() {
         ))}
       </section>
 
-      <section className="bg-[#1d1d1f] px-6 py-24 text-center text-white">
+      <section className="bg-white px-6 py-24 text-center text-gray-900">
         <h2 className="mx-auto max-w-2xl text-4xl font-semibold tracking-tight sm:text-5xl">
           Comece pelo seu primeiro projeto.
         </h2>
@@ -111,7 +113,7 @@ function Dashboard() {
           semana.
         </p>
         <Link
-          to="/projetos"
+          to={"/projetos"}
           className="mt-8 inline-block rounded-full bg-[#0071e3] px-6 py-3 text-base font-medium text-white transition-colors hover:bg-[#0077ed]"
         >
           Criar projeto

@@ -26,7 +26,7 @@ function Footer() {
 
   return (
     <footer className="bg-[#f5f5f7] text-xs text-[#6e6e73]">
-      <div className="mx-auto max-w-5xl px-6 pt-6 pb-4">
+      <div className="mr-95 mx-auto max-w-5xl px-6 pt-6 pb-4">
         <p className="leading-relaxed">
           Projeto final da Formação de Desenvolvedor Full Stack da +praTi.
         </p>

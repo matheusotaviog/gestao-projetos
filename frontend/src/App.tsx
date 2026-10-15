@@ -15,10 +15,10 @@ export function App() {
       <Header />
       <main className="flex-1">
         <Routes>
+          <Route path="/" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro />} />
           <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<Dashboard />} />
             <Route path="/projetos" element={<Projetos />} />
             <Route path="/tarefas" element={<Tarefas />} />
             <Route path="/cronograma" element={<Cronograma />} />
