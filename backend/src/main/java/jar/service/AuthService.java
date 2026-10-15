@@ -1,5 +1,6 @@
 package jar.service;
 
+import jar.dto.LoginResponse;
 import jar.entity.Usuario;
 import jar.repository.UsuarioRepository;
 import jar.security.JwtService;
@@ -20,13 +21,13 @@ public class AuthService {
     @Autowired
     private JwtService jwtService;
 
-    public String login(String email, String senha) {
+    public LoginResponse login(String email, String senha) {
         Usuario usuario = repository.findByEmail(email);
 
         if (usuario == null || !passwordEncoder.matches(senha, usuario.getSenha())) {
             throw new BadCredentialsException("E-mail ou senha inválidos");
         }
 
-        return jwtService.gerarToken(usuario.getEmail());
+        return new LoginResponse(jwtService.gerarToken(usuario.getEmail()), usuario.getUsername());
     }
 }

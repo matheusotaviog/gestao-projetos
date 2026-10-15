@@ -21,55 +21,40 @@ public class Projeto {
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
+    @Column(length = 2048)
+    private String link;
+
+    private Integer ano;
+
+    @Column(length = 2048)
+    private String imagem;
+
     @Column(name = "data_criacao")
     private LocalDateTime dataCriacao;
 
     public Projeto() {}
 
-    public Projeto(String nome, String descricao, Usuario usuario) {
-        this.nome = nome;
-        this.descricao = descricao;
-        this.usuario = usuario;
-        this.dataCriacao = LocalDateTime.now();
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public Usuario getUsuario() { return usuario; }
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
+    public String getLink() { return link; }
+    public void setLink(String link) { this.link = link; }
 
-    public String getNome() {
-        return nome;
-    }
+    public Integer getAno() { return ano; }
+    public void setAno(Integer ano) { this.ano = ano; }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    public String getImagem() { return imagem; }
+    public void setImagem(String imagem) { this.imagem = imagem; }
 
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public LocalDateTime getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public void setDataCriacao(LocalDateTime dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
+    public LocalDateTime getDataCriacao() { return dataCriacao; }
+    public void setDataCriacao(LocalDateTime dataCriacao) { this.dataCriacao = dataCriacao; }
 }

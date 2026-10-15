@@ -18,6 +18,12 @@ public class Usuario {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(unique = true, length = 30)
+    private String username;
+
+    @Column(length = 500)
+    private String bio;
+
     @Column(nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String senha;
@@ -30,58 +36,27 @@ public class Usuario {
 
     public Usuario() {}
 
-    public Usuario(String nome, String email, String senha) {
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.dataCriacao = LocalDateTime.now();
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getNome() {
-        return nome;
-    }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    public String getBio() { return bio; }
+    public void setBio(String bio) { this.bio = bio; }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getSenha() { return senha; }
+    public void setSenha(String senha) { this.senha = senha; }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public String getTelefone() { return telefone; }
+    public void setTelefone(String telefone) { this.telefone = telefone; }
 
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public LocalDateTime getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public void setDataCriacao(LocalDateTime dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
+    public LocalDateTime getDataCriacao() { return dataCriacao; }
+    public void setDataCriacao(LocalDateTime dataCriacao) { this.dataCriacao = dataCriacao; }
 }

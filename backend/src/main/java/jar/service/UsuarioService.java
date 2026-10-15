@@ -7,9 +7,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class UsuarioService {
+
+    private static final Pattern USERNAME = Pattern.compile("[a-z0-9_-]{3,30}");
 
     @Autowired
     private UsuarioRepository repository;
@@ -39,10 +42,17 @@ public class UsuarioService {
 
     // Criar
     public Usuario criar(Usuario usuario) {
-        // Validar email único
         if (repository.findByEmail(usuario.getEmail()) != null) {
             throw new RuntimeException("Email já está registrado: " + usuario.getEmail());
         }
+        String username = usuario.getUsername() == null ? "" : usuario.getUsername().trim().toLowerCase();
+        if (!USERNAME.matcher(username).matches()) {
+            throw new RuntimeException("Nome de usuário deve ter de 3 a 30 caracteres: letras minúsculas, números, _ ou -");
+        }
+        if (repository.findByUsername(username) != null) {
+            throw new RuntimeException("Nome de usuário já está em uso");
+        }
+        usuario.setUsername(username);
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         usuario.setDataCriacao(LocalDateTime.now());
         return repository.save(usuario);
