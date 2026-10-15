@@ -57,7 +57,27 @@ function Header() {
             </li>
           ))}
 
-
+          <li>
+            {token ? (
+              <button
+                type="button"
+                onClick={sair}
+                className="whitespace-nowrap opacity-80 transition-opacity duration-200 hover:opacity-100"
+              >
+                Sair
+              </button>
+            ) : (
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  `whitespace-nowrap transition-opacity duration-200 hover:opacity-100 ${isActive ? 'opacity-100' : 'opacity-80'
+                  }`
+                }
+              >
+                Entrar
+              </NavLink>
+            )}
+          </li>
         </ul>
       </nav>
     </header>
