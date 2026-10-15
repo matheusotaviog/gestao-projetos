@@ -50,6 +50,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/projetos").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/api/projetos/**").permitAll()
                 .requestMatchers(HttpMethod.DELETE, "/api/projetos/**").permitAll()
+                // Login é público
+                .requestMatchers("/api/auth/**").permitAll()
                 // Outros endpoints requerem autenticação
                 .anyRequest().authenticated()
             )
