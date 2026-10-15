@@ -6,7 +6,9 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 type FormData = {
   nome: string
+  username: string
   email: string
+  bio: string
   telefone: string
   senha: string
   confirmarSenha: string
@@ -14,7 +16,9 @@ type FormData = {
 
 const initialForm: FormData = {
   nome: '',
+  username: '',
   email: '',
+  bio: '',
   telefone: '',
   senha: '',
   confirmarSenha: '',
@@ -22,6 +26,7 @@ const initialForm: FormData = {
 
 function validar(form: FormData): string | null {
   if (!form.nome.trim()) return 'Informe seu nome.'
+  if (!/^[a-z0-9_-]{3,30}$/.test(form.username.trim().toLowerCase())) return 'Nome de usuário: de 3 a 30 letras minúsculas, números, _ ou -.'
   if (!/^\S+@\S+\.\S+$/.test(form.email)) return 'Informe um e-mail válido.'
   if (form.senha.length < 6) return 'A senha precisa ter pelo menos 6 caracteres.'
   if (form.senha !== form.confirmarSenha) return 'As senhas não coincidem.'
@@ -59,6 +64,8 @@ export function Cadastro() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           nome: form.nome.trim(),
+          username: form.username.trim().toLowerCase(),
+          bio: form.bio.trim() || null,
           email: form.email.trim(),
           telefone: form.telefone.trim() || null,
           senha: form.senha,
@@ -104,6 +111,15 @@ export function Cadastro() {
           onChange={(e) => atualizar('nome', e.target.value)}
         />
 
+        <label htmlFor="username" className="sr-only">Nome de usuário</label>
+        <input
+          id="username"
+          className={inputClass}
+          placeholder="Nome de usuário (ex.: joao_dev)"
+          value={form.username}
+          onChange={(e) => atualizar('username', e.target.value)}
+        />
+
         <label htmlFor="email" className="sr-only">E-mail</label>
         <input
           id="email"
@@ -112,6 +128,16 @@ export function Cadastro() {
           placeholder="nome@exemplo.com"
           value={form.email}
           onChange={(e) => atualizar('email', e.target.value)}
+        />
+
+        <label htmlFor="bio" className="sr-only">Sobre você</label>
+        <textarea
+          id="bio"
+          rows={3}
+          className={`${inputClass} h-auto py-3`}
+          placeholder="Sobre você (opcional)"
+          value={form.bio}
+          onChange={(e) => atualizar('bio', e.target.value)}
         />
 
         <label htmlFor="telefone" className="sr-only">Telefone</label>

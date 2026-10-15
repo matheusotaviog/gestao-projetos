@@ -9,7 +9,7 @@ const navigation = [
 ]
 
 function Header() {
-  const { token, logout } = useAuth()
+  const { token, username, logout } = useAuth()
   const navigate = useNavigate()
 
   function sair() {
@@ -56,6 +56,14 @@ function Header() {
               </NavLink>
             </li>
           ))}
+
+          {token && username && (
+            <li>
+              <NavLink to={`/perfil/${username}`} className="whitespace-nowrap opacity-80 hover:opacity-100">
+                Meu perfil
+              </NavLink>
+            </li>
+          )}
 
           <li>
             {token ? (

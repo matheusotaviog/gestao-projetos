@@ -32,8 +32,8 @@ export function Login() {
         return
       }
 
-      const dados: { token: string } = await resposta.json()
-      login(dados.token)
+      const dados: { token: string; username: string | null } = await resposta.json()
+      login(dados.token, dados.username)
       navigate('/', { replace: true })
     } catch {
       setErro('Não foi possível conectar ao servidor. Verifique se o backend está rodando.')
