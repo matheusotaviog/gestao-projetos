@@ -8,6 +8,8 @@ import { Tarefas } from './Pages/Tarefas/Tarefas'
 import { Cronograma } from './Pages/Cronograma/Cronograma'
 import { Cadastro } from './Pages/Cadastro/Cadastro'
 import { Login } from './Pages/Login/Login'
+import { ProjetoDetalhes } from './Pages/ProjetoDetalhes/ProjetoDetalhes'
+import { Perfil } from './Pages/Perfil/Perfil'
 
 export function App() {
   return (
@@ -18,8 +20,10 @@ export function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro />} />
+          <Route path="/perfil/:username" element={<Perfil />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/projetos" element={<Projetos />} />
+            <Route path="/projetos/:projetoId" element={<ProjetoDetalhes />} />
             <Route path="/tarefas" element={<Tarefas />} />
             <Route path="/cronograma" element={<Cronograma />} />
           </Route>
