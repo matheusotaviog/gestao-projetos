@@ -3,6 +3,7 @@ package jar.security;
 import org.springframework.http.HttpMethod;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,6 +30,7 @@ public class SecurityConfig {
             throws Exception {
 
         http
+            .cors(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())
             .formLogin(form -> form.disable())
             .httpBasic(basic -> basic.disable())
@@ -38,18 +40,8 @@ public class SecurityConfig {
                 )
             )
             .authorizeHttpRequests(auth -> auth
-                // Permitir acesso público aos endpoints de usuário (teste)
-                .requestMatchers(HttpMethod.GET, "/api/usuarios").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/usuarios/**").permitAll()
+                // Cadastro e login são públicos; o resto exige token
                 .requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll()
-                .requestMatchers(HttpMethod.PUT, "/api/usuarios/**").permitAll()
-                .requestMatchers(HttpMethod.DELETE, "/api/usuarios/**").permitAll()
-                // Permitir acesso público aos endpoints de projeto (teste)
-                .requestMatchers(HttpMethod.GET, "/api/projetos").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/projetos/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/projetos").permitAll()
-                .requestMatchers(HttpMethod.PUT, "/api/projetos/**").permitAll()
-                .requestMatchers(HttpMethod.DELETE, "/api/projetos/**").permitAll()
                 // Login é público
                 .requestMatchers("/api/auth/**").permitAll()
                 // Outros endpoints requerem autenticação

@@ -1,15 +1,27 @@
 package jar.security;
 
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
+
+    private static final String PREFIXO = "Bearer ";
+
+    private final JwtService jwtService;
+
+    public JwtFilter(JwtService jwtService) {
+        this.jwtService = jwtService;
+    }
 
     @Override
     protected void doFilterInternal(
@@ -17,6 +29,20 @@ public class JwtFilter extends OncePerRequestFilter {
         HttpServletResponse response,
         FilterChain filterChain
     ) throws ServletException, IOException {
+        String cabecalho = request.getHeader("Authorization");
+
+        if (cabecalho != null && cabecalho.startsWith(PREFIXO)) {
+            String token = cabecalho.substring(PREFIXO.length());
+            try {
+                String email = jwtService.validarEObterEmail(token);
+                SecurityContextHolder.getContext().setAuthentication(
+                    new UsernamePasswordAuthenticationToken(email, null, List.of())
+                );
+            } catch (JwtException | IllegalArgumentException e) {
+                SecurityContextHolder.clearContext();
+            }
+        }
+
         filterChain.doFilter(request, response);
     }
 }
