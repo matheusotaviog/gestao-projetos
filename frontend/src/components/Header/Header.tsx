@@ -1,4 +1,5 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../Context/AuthContext'
 
 const navigation = [
   { to: '/', label: 'Dashboard', end: true },
@@ -8,6 +9,14 @@ const navigation = [
 ]
 
 function Header() {
+  const { token, logout } = useAuth()
+  const navigate = useNavigate()
+
+  function sair() {
+    logout()
+    navigate('/login', { replace: true })
+  }
+
   return (
     <header className="sticky top-0 z-50 border-b border-black/10 bg-[rgba(251,251,253,0.8)] backdrop-blur-xl backdrop-saturate-150">
       <nav
@@ -48,6 +57,29 @@ function Header() {
               </NavLink>
             </li>
           ))}
+
+          <li>
+            {token ? (
+              <button
+                type="button"
+                onClick={sair}
+                className="whitespace-nowrap opacity-80 transition-opacity duration-200 hover:opacity-100"
+              >
+                Sair
+              </button>
+            ) : (
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  `whitespace-nowrap transition-opacity duration-200 hover:opacity-100 ${
+                    isActive ? 'opacity-100' : 'opacity-80'
+                  }`
+                }
+              >
+                Entrar
+              </NavLink>
+            )}
+          </li>
         </ul>
       </nav>
     </header>
