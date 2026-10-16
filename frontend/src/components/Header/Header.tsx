@@ -5,7 +5,6 @@ const navigation = [
   { to: '/', label: 'Dashboard', end: true },
   { to: '/projetos', label: 'Projetos' },
   { to: '/tarefas', label: 'Tarefas' },
-  { to: '/cronograma', label: 'Cronograma' },
 ]
 
 function Header() {

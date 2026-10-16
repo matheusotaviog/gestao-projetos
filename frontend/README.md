@@ -131,7 +131,6 @@ Funcionalidades futuras deverão ser organizadas em `src/features` conforme fore
 | `/projetos` | Projetos |
 | `/projetos/:projetoId` | Detalhes de um projeto |
 | `/tarefas` | Tarefas |
-| `/cronograma` | Cronograma |
 
 As páginas atuais são provisórias. Elas reservam a navegação sem antecipar funcionalidades de sprints posteriores.
 
@@ -152,6 +151,5 @@ As três verificações devem terminar sem erros.
 - Autenticação funcional
 - Integração com a API
 - CRUD de projetos e tarefas
-- Cronograma funcional
 - Dashboard com dados reais
 - Notificações e lembretes

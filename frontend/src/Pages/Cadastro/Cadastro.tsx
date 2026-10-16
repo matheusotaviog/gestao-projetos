@@ -192,7 +192,7 @@ export function Cadastro() {
 
       <p className="mt-8 text-center text-xs leading-relaxed text-[#6e6e73]">
         Os seus dados são usados para identificar sua conta e salvar seus
-        projetos, tarefas e cronograma.
+        projetos e tarefas.
       </p>
     </section>
   )

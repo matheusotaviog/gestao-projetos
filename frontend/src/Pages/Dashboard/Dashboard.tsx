@@ -23,17 +23,6 @@ const features = [
       { label: 'Conectar o frontend', value: 20 },
     ],
   },
-  {
-    eyebrow: 'Cronograma',
-    title: 'Cada compromisso no seu horário.',
-    description:
-      'Agende blocos de estudo por dia da semana e vincule tarefas aos horários em que elas serão feitas.',
-    preview: [
-      { label: 'Seg · 19h às 21h', value: 80 },
-      { label: 'Qua · 20h às 22h', value: 50 },
-      { label: 'Sáb · 9h às 12h', value: 30 },
-    ],
-  },
 ]
 
 
@@ -46,7 +35,7 @@ function Dashboard() {
           Gestão de estudos e tarefas
         </p>
         <h1 className="mx-auto mt-3 max-w-3xl text-5xl font-semibold tracking-tight sm:text-6xl">
-          Organize seus projetos, tarefas e cronograma em um só lugar.
+          Organize seus projetos e tarefas em um só lugar.
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-[#6e6e73]">
           Um espaço simples para transformar planos de estudo em rotina: cada
@@ -58,12 +47,6 @@ function Dashboard() {
             className="rounded-full bg-[#0071e3] px-6 py-3 text-base font-medium text-white transition-colors hover:bg-[#0077ed]"
           >
             Ver projetos
-          </Link>
-          <Link
-            to="/cronograma"
-            className="rounded-full px-6 py-3 text-base font-medium text-[#0071e3] transition-colors hover:underline"
-          >
-            Ver cronograma ›
           </Link>
         </div>
       </section>
@@ -109,8 +92,7 @@ function Dashboard() {
           Comece pelo seu primeiro projeto.
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-lg text-[#a1a1a6]">
-          Cadastre um projeto, adicione as tarefas e monte o seu cronograma da
-          semana.
+          Cadastre um projeto e acompanhe as tarefas de cada um.
         </p>
         <Link
           to={"/projetos"}
