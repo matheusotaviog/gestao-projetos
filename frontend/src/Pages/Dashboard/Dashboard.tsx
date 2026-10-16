@@ -1,104 +1,89 @@
 import { Link } from 'react-router-dom'
 
-const features = [
+const recursos = [
   {
-    eyebrow: 'Projetos',
-    title: 'Todos os seus projetos em um lugar.',
-    description:
-      'Mostre o preview de projetos como um portifólio.',
-    preview: [
-      { label: 'Maratona de programação', value: 68 },
-      { label: 'Estudo de banco de dados', value: 35 },
-      { label: 'Projeto final', value: 12 },
-    ],
+    numero: '01',
+    titulo: 'Projetos',
+    texto: 'Cada projeto com descrição, link, ano e uma imagem tirada direto do site que ele representa.',
   },
   {
-    eyebrow: 'Tarefas',
-    title: 'Saiba o que fazer agora.',
-    description:
-      'Cada tarefa tem status e data de entrega. Veja de relance o que está pendente, em andamento ou concluído.',
-    preview: [
-      { label: 'Modelar o banco', value: 100 },
-      { label: 'Criar endpoints', value: 60 },
-      { label: 'Conectar o frontend', value: 20 },
-    ],
+    numero: '02',
+    titulo: 'Painel de gestão',
+    texto: 'Só você vê o andamento do seu trabalho. Edite, acompanhe e conclua quando quiser.',
+  },
+  {
+    numero: '03',
+    titulo: 'Perfil público',
+    texto: 'Uma página sua, com quem você é e tudo o que construiu, pronta para ser compartilhada.',
   },
 ]
 
-
-
 function Dashboard() {
   return (
-    <div className="bg-[#f5f5f7] text-[#1d1d1f]">
-      <section className="mx-auto max-w-5xl px-6 pt-24 pb-20 text-center">
-        <p className="text-base font-semibold text-[#0071e3]">
-          Gestão de estudos e tarefas
+    <div className="relative overflow-hidden bg-[#07080a] text-[#f4f1ea]">
+      <div className="pointer-events-none absolute inset-0 bg-grade" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0 bg-grid opacity-[0.07]" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0 bg-grain opacity-[0.06]" aria-hidden="true" />
+
+      <section className="relative flex min-h-[92vh] flex-col justify-end px-6 pb-20 pt-32 sm:px-12 lg:px-20">
+        <p className="animate-fade-up text-xs font-medium uppercase tracking-[0.4em] text-[#f4f1ea]/60">
+          Gestão de projetos · Perfil público
         </p>
-        <h1 className="mx-auto mt-3 max-w-3xl text-5xl font-semibold tracking-tight sm:text-6xl">
-          Organize seus projetos e tarefas em um só lugar.
+        <h1 className="animate-fade-up mt-6 text-[clamp(3.5rem,13vw,11rem)] font-black uppercase leading-[0.85] tracking-tighter [animation-delay:150ms]">
+          Processos
         </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-[#6e6e73]">
-          Um espaço simples para transformar planos de estudo em rotina: cada
-          projeto com suas tarefas e cada tarefa no seu horário.
-        </p>
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <Link
-            to="/projetos"
-            className="rounded-full bg-[#0071e3] px-6 py-3 text-base font-medium text-white transition-colors hover:bg-[#0077ed]"
-          >
-            Ver projetos
-          </Link>
+        <div className="animate-fade-up mt-10 flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between [animation-delay:300ms]">
+          <p className="max-w-md text-lg leading-relaxed text-[#f4f1ea]/75">
+            Organize o que você constrói e mostre ao mundo como você trabalha.
+          </p>
+          <div className="flex gap-4">
+            <Link
+              to="/cadastro"
+              className="rounded-none bg-[#f4f1ea] px-8 py-4 text-sm font-bold uppercase tracking-widest text-[#07080a] transition-transform duration-300 hover:-translate-y-0.5"
+            >
+              Criar conta
+            </Link>
+            <Link
+              to="/login"
+              className="border border-[#f4f1ea]/40 px-8 py-4 text-sm font-bold uppercase tracking-widest transition-colors duration-300 hover:border-[#f4f1ea] hover:bg-[#f4f1ea]/5"
+            >
+              Entrar
+            </Link>
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-5xl gap-6 px-6 pb-24 md:grid-cols-3">
-        {features.map((feature) => (
-          <article
-            key={feature.eyebrow}
-            className="flex flex-col rounded-3xl bg-white p-8 shadow-sm"
-          >
-            <p className="text-sm font-semibold text-[#0071e3]">
-              {feature.eyebrow}
-            </p>
-            <h2 className="mt-2 text-2xl font-semibold leading-tight tracking-tight">
-              {feature.title}
-            </h2>
-            <p className="mt-3 text-base leading-relaxed text-[#6e6e73]">
-              {feature.description}
-            </p>
-
-            <ul className="mt-8 space-y-4 border-t border-black/5 pt-6">
-              {feature.preview.map((item) => (
-                <li key={item.label}>
-                  <div className="mb-2 flex justify-between text-sm">
-                    <span>{item.label}</span>
-                    <span className="text-[#6e6e73]">{item.value}%</span>
-                  </div>
-                  <div className="h-1.5 overflow-hidden rounded-full bg-[#e8e8ed]">
-                    <div
-                      className="h-full rounded-full bg-[#0071e3]"
-                      style={{ width: `${item.value}%` }}
-                    />
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </article>
-        ))}
+      <section className="relative px-6 py-32 sm:px-12 lg:px-20">
+        <p className="text-xs font-medium uppercase tracking-[0.4em] text-[#f4f1ea]/50">Sobre</p>
+        <p className="mt-6 max-w-5xl text-[clamp(1.75rem,4vw,3.5rem)] font-light leading-tight tracking-tight">
+          Cada projeto é uma história. A sua merece ser contada com <span className="font-semibold">cuidado</span>, do primeiro rascunho ao último ajuste.
+        </p>
       </section>
 
-      <section className="bg-white px-6 py-24 text-center text-gray-900">
-        <h2 className="mx-auto max-w-2xl text-4xl font-semibold tracking-tight sm:text-5xl">
-          Comece pelo seu primeiro projeto.
+      <section className="relative px-6 pb-32 sm:px-12 lg:px-20">
+        <ul className="divide-y divide-[#f4f1ea]/15 border-y border-[#f4f1ea]/15">
+          {recursos.map((recurso) => (
+            <li
+              key={recurso.numero}
+              className="grid gap-4 py-10 transition-colors duration-500 hover:bg-[#f4f1ea]/[0.03] sm:grid-cols-[6rem_1fr_2fr] sm:items-baseline sm:gap-10"
+            >
+              <span className="font-mono text-sm text-[#f4f1ea]/40">{recurso.numero}</span>
+              <h2 className="text-3xl font-bold uppercase tracking-tight sm:text-5xl">{recurso.titulo}</h2>
+              <p className="text-base leading-relaxed text-[#f4f1ea]/65">{recurso.texto}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="relative flex flex-col items-center px-6 py-40 text-center">
+        <h2 className="text-[clamp(2.5rem,8vw,6rem)] font-black uppercase leading-[0.9] tracking-tighter">
+          Seu próximo<br />projeto começa aqui
         </h2>
-        <p className="mx-auto mt-4 max-w-xl text-lg text-[#a1a1a6]">
-          Cadastre um projeto e acompanhe as tarefas de cada um.
-        </p>
         <Link
-          to={"/projetos"}
-          className="mt-8 inline-block rounded-full bg-[#0071e3] px-6 py-3 text-base font-medium text-white transition-colors hover:bg-[#0077ed]"
+          to="/cadastro"
+          className="mt-12 bg-[#f4f1ea] px-10 py-5 text-sm font-bold uppercase tracking-widest text-[#07080a] transition-transform duration-300 hover:-translate-y-0.5"
         >
-          Criar projeto
+          Criar conta
         </Link>
       </section>
     </div>
