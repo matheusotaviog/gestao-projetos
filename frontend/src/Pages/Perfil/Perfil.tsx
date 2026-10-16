@@ -2,15 +2,16 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { api, ApiError } from '../../services/api'
 import { urlImagem, type Perfil as PerfilDados, type Projeto } from '../../services/projetos'
+import { ProjetoModal } from '../../components/ProjetoModal/ProjetoModal'
 
 function tomDoNome(nome: string): number {
   return [...nome].reduce((soma, letra) => soma + letra.charCodeAt(0), 0) % 360
 }
 
-function TileProjeto({ projeto }: { projeto: Projeto }) {
+function TileProjeto({ projeto, onDetalhes }: { projeto: Projeto; onDetalhes: () => void }) {
   const tom = tomDoNome(projeto.nome)
-  const conteudo = (
-    <>
+  return (
+    <div className="group relative aspect-square overflow-hidden bg-[#15161b]">
       {projeto.imagem ? (
         <img
           src={urlImagem(projeto.imagem) ?? undefined}
@@ -26,22 +27,29 @@ function TileProjeto({ projeto }: { projeto: Projeto }) {
           {projeto.nome.charAt(0).toUpperCase()}
         </div>
       )}
-      <div className="absolute inset-0 flex flex-col justify-end bg-black/70 p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-        <p className="text-base font-semibold leading-tight">{projeto.nome}</p>
-        {projeto.ano && <p className="mt-1 text-xs text-white/60">{projeto.ano}</p>}
-        {projeto.descricao && <p className="mt-2 line-clamp-2 text-xs text-white/70">{projeto.descricao}</p>}
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/70 p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100 focus-within:opacity-100">
+        <p className="text-center text-base font-semibold leading-tight">{projeto.nome}</p>
+        <div className="flex flex-wrap justify-center gap-2">
+          {projeto.link && (
+            <a
+              href={projeto.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full bg-white px-4 py-2 text-sm font-medium text-[#0b0c10] hover:opacity-90"
+            >
+              Abrir projeto ↗
+            </a>
+          )}
+          <button
+            type="button"
+            onClick={onDetalhes}
+            className="rounded-full border border-white/60 px-4 py-2 text-sm font-medium text-white hover:bg-white/10"
+          >
+            Detalhes
+          </button>
+        </div>
       </div>
-    </>
-  )
-
-  const classe = 'group relative block aspect-square overflow-hidden bg-[#15161b]'
-
-  return projeto.link ? (
-    <a href={projeto.link} target="_blank" rel="noopener noreferrer" aria-label={`${projeto.nome}, abre em nova aba`} className={classe}>
-      {conteudo}
-    </a>
-  ) : (
-    <div className={classe}>{conteudo}</div>
+    </div>
   )
 }
 
@@ -49,6 +57,7 @@ export function Perfil() {
   const { username } = useParams()
   const [perfil, setPerfil] = useState<PerfilDados | null>(null)
   const [erro, setErro] = useState<string | null>(null)
+  const [selecionado, setSelecionado] = useState<Projeto | null>(null)
 
   useEffect(() => {
     api<PerfilDados>(`/api/perfis/${username}`)
@@ -123,13 +132,14 @@ export function Perfil() {
           <ul className="grid grid-cols-2 gap-1 sm:grid-cols-3">
             {perfil.projetos.map((projeto) => (
               <li key={projeto.id}>
-                <TileProjeto projeto={projeto} />
+                <TileProjeto projeto={projeto} onDetalhes={() => setSelecionado(projeto)} />
               </li>
             ))}
           </ul>
         )}
       </section>
 
+      {selecionado && <ProjetoModal projeto={selecionado} onFechar={() => setSelecionado(null)} />}
     </div>
   )
 }
