@@ -7,6 +7,8 @@ export type Projeto = {
   link: string | null
   ano: number | null
   imagem: string | null
+  readme: string | null
+  tecnologias: string[]
 }
 
 export type ProjetoForm = {
@@ -14,6 +16,13 @@ export type ProjetoForm = {
   descricao: string
   link: string
   ano: number | null
+  readme: string
+  tecnologias: string[]
+}
+
+export type GrupoTecnologias = {
+  titulo: string
+  itens: string[]
 }
 
 export type Perfil = {
@@ -40,4 +49,12 @@ export async function enviarImagem(id: number, arquivo: File, token: string): Pr
     throw new Error((await resposta.text()) || 'Não foi possível enviar a imagem.')
   }
   return (await resposta.json()) as Projeto
+}
+
+export async function buscarTecnologias(): Promise<GrupoTecnologias[]> {
+  const resposta = await fetch(`${API_BASE_URL}/api/tecnologias`)
+  if (!resposta.ok) {
+    throw new Error('Não foi possível carregar as tecnologias.')
+  }
+  return (await resposta.json()) as GrupoTecnologias[]
 }

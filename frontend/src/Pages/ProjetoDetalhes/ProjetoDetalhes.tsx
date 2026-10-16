@@ -90,6 +90,8 @@ export function ProjetoDetalhes() {
               descricao: projeto.descricao ?? '',
               link: projeto.link ?? '',
               ano: projeto.ano,
+              readme: projeto.readme ?? '',
+              tecnologias: projeto.tecnologias,
             }}
             textoBotao="Salvar alterações"
             onSalvar={salvar}
@@ -112,10 +114,24 @@ export function ProjetoDetalhes() {
               Abrir projeto ↗
             </a>
           )}
-          <div className="rounded-3xl bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold">Tarefas e andamento</h2>
-            <p className="mt-2 text-sm text-[#6e6e73]">As tarefas deste projeto serão exibidas aqui.</p>
-          </div>
+          {projeto.tecnologias.length > 0 && (
+            <div>
+              <h2 className="mb-3 text-sm font-semibold uppercase tracking-widest text-[#6e6e73]">Tecnologias e IA</h2>
+              <ul className="flex flex-wrap gap-2">
+                {projeto.tecnologias.map((tecnologia) => (
+                  <li key={tecnologia} className="rounded-full bg-[#f5f5f7] px-3 py-1.5 text-sm text-[#1d1d1f]">
+                    {tecnologia}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {projeto.readme && (
+            <div className="rounded-3xl bg-white p-6 shadow-sm">
+              <h2 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[#6e6e73]">README</h2>
+              <div className="whitespace-pre-wrap font-mono text-sm leading-relaxed text-[#1d1d1f]">{projeto.readme}</div>
+            </div>
+          )}
         </div>
       )}
     </section>

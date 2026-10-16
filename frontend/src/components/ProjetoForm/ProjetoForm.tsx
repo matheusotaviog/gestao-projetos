@@ -1,5 +1,6 @@
-import { useState, type FormEvent } from 'react'
-import type { ProjetoForm as Dados } from '../../services/projetos'
+import { useEffect, useState, type FormEvent } from 'react'
+import { buscarTecnologias, type GrupoTecnologias, type ProjetoForm as Dados } from '../../services/projetos'
+import { TecnologiasPicker } from '../TecnologiasPicker/TecnologiasPicker'
 
 type Props = {
   inicial?: Dados
@@ -8,7 +9,7 @@ type Props = {
   onCancelar?: () => void
 }
 
-const vazio: Dados = { nome: '', descricao: '', link: '', ano: null }
+const vazio: Dados = { nome: '', descricao: '', link: '', ano: null, readme: '', tecnologias: [] }
 
 const inputClass =
   'h-12 w-full rounded-xl border border-[#d2d2d7] bg-white px-4 text-base text-[#1d1d1f] placeholder:text-[#86868b] outline-none transition focus:border-[#0071e3] focus:ring-4 focus:ring-[#0071e3]/20'
@@ -18,6 +19,11 @@ export function ProjetoForm({ inicial = vazio, textoBotao, onSalvar, onCancelar 
   const [erro, setErro] = useState<string | null>(null)
   const [enviando, setEnviando] = useState(false)
   const [arquivo, setArquivo] = useState<File | null>(null)
+  const [grupos, setGrupos] = useState<GrupoTecnologias[]>([])
+
+  useEffect(() => {
+    buscarTecnologias().then(setGrupos).catch(() => setErro('Não foi possível carregar as tecnologias.'))
+  }, [])
 
   async function enviar(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -80,12 +86,31 @@ export function ProjetoForm({ inicial = vazio, textoBotao, onSalvar, onCancelar 
       <label htmlFor="projeto-descricao" className="sr-only">Descrição</label>
       <textarea
         id="projeto-descricao"
-        rows={4}
+        rows={3}
         className={`${inputClass} h-auto py-3`}
         placeholder="Descrição do projeto"
         value={dados.descricao}
         onChange={(e) => setDados({ ...dados, descricao: e.target.value })}
       />
+
+      <label htmlFor="projeto-readme" className="sr-only">README</label>
+      <textarea
+        id="projeto-readme"
+        rows={8}
+        className={`${inputClass} h-auto py-3 font-mono text-sm`}
+        placeholder="README: como o projeto funciona, o que foi feito, próximos passos"
+        value={dados.readme}
+        onChange={(e) => setDados({ ...dados, readme: e.target.value })}
+      />
+
+      <div className="pt-2">
+        <p className="mb-3 text-sm font-medium text-[#1d1d1f]">Tecnologias e IA usadas</p>
+        <TecnologiasPicker
+          grupos={grupos}
+          selecionadas={dados.tecnologias}
+          onChange={(tecnologias) => setDados({ ...dados, tecnologias })}
+        />
+      </div>
 
       {erro && <p role="alert" className="text-sm text-[#d70015]">{erro}</p>}
 
