@@ -114,9 +114,6 @@ export function Perfil() {
         )}
       </section>
 
-      <footer className="border-t border-white/10 px-6 py-8 text-center">
-        <Link to="/" className="text-xs text-white/40 hover:text-white/70">Feito com Mirrorwork</Link>
-      </footer>
     </div>
   )
 }
