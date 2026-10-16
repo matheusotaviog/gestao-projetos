@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { api, ApiError } from '../../services/api'
 import { useAuth } from '../../Context/AuthContext'
 import { ProjetoForm } from '../../components/ProjetoForm/ProjetoForm'
+import { TecnologiaIcon } from '../../components/TecnologiasPicker/TecnologiaIcon'
 import { enviarImagem, urlImagem, type Projeto, type ProjetoForm as Dados } from '../../services/projetos'
 
 export function ProjetoDetalhes() {
@@ -119,7 +120,8 @@ export function ProjetoDetalhes() {
               <h2 className="mb-3 text-sm font-semibold uppercase tracking-widest text-[#6e6e73]">Tecnologias e IA</h2>
               <ul className="flex flex-wrap gap-2">
                 {projeto.tecnologias.map((tecnologia) => (
-                  <li key={tecnologia} className="rounded-full bg-[#f5f5f7] px-3 py-1.5 text-sm text-[#1d1d1f]">
+                  <li key={tecnologia} className="inline-flex items-center gap-2 rounded-full bg-[#f5f5f7] px-3 py-1.5 text-sm text-[#1d1d1f]">
+                    <TecnologiaIcon nome={tecnologia} />
                     {tecnologia}
                   </li>
                 ))}
