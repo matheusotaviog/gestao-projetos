@@ -1,5 +1,6 @@
 package jar.service;
 
+import jar.catalogo.Tecnologias;
 import jar.dto.ProjetoRequest;
 import jar.entity.Projeto;
 import jar.entity.Usuario;
@@ -9,6 +10,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +72,20 @@ public class ProjetoService {
         projeto.setDescricao(dados.descricao());
         projeto.setLink(novoLink);
         projeto.setAno(dados.ano() != null ? dados.ano() : anoAtual(projeto));
+        projeto.setReadme(dados.readme() == null || dados.readme().isBlank() ? null : dados.readme());
+        projeto.setTecnologias(validarTecnologias(dados.tecnologias()));
+    }
+
+    private List<String> validarTecnologias(List<String> tecnologias) {
+        if (tecnologias == null) {
+            return new ArrayList<>();
+        }
+        for (String tecnologia : tecnologias) {
+            if (!Tecnologias.existe(tecnologia)) {
+                throw new IllegalArgumentException("Tecnologia desconhecida: " + tecnologia);
+            }
+        }
+        return new ArrayList<>(new LinkedHashSet<>(tecnologias));
     }
 
     public Projeto trocarImagem(Long id, String email, MultipartFile arquivo) throws IOException {

@@ -2,6 +2,8 @@ package jar.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "projeto")
@@ -23,6 +25,14 @@ public class Projeto {
 
     @Column(length = 2048)
     private String link;
+
+    @Column(columnDefinition = "TEXT")
+    private String readme;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "projeto_tecnologia", joinColumns = @JoinColumn(name = "projeto_id"))
+    @Column(name = "tecnologia", length = 60)
+    private List<String> tecnologias = new ArrayList<>();
 
     private Integer ano;
 
@@ -48,6 +58,12 @@ public class Projeto {
 
     public String getLink() { return link; }
     public void setLink(String link) { this.link = link; }
+
+    public String getReadme() { return readme; }
+    public void setReadme(String readme) { this.readme = readme; }
+
+    public List<String> getTecnologias() { return tecnologias; }
+    public void setTecnologias(List<String> tecnologias) { this.tecnologias = tecnologias; }
 
     public Integer getAno() { return ano; }
     public void setAno(Integer ano) { this.ano = ano; }

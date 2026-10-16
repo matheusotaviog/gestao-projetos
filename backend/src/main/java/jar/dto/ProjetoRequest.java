@@ -1,4 +1,6 @@
 package jar.dto;
 
-public record ProjetoRequest(String nome, String descricao, String link, Integer ano) {
+import java.util.List;
+
+public record ProjetoRequest(String nome, String descricao, String link, Integer ano, String readme, List<String> tecnologias) {
 }

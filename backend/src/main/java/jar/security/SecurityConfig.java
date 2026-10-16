@@ -46,6 +46,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/perfis/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/arquivos/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/tecnologias").permitAll()
                 // Outros endpoints requerem autenticação
                 .anyRequest().authenticated()
             )

@@ -2,7 +2,9 @@ package jar.dto;
 
 import jar.entity.Projeto;
 
-public record ProjetoResponse(Long id, String nome, String descricao, String link, Integer ano, String imagem) {
+import java.util.List;
+
+public record ProjetoResponse(Long id, String nome, String descricao, String link, Integer ano, String imagem, String readme, List<String> tecnologias) {
 
     public static ProjetoResponse de(Projeto projeto) {
         return new ProjetoResponse(
@@ -11,7 +13,9 @@ public record ProjetoResponse(Long id, String nome, String descricao, String lin
             projeto.getDescricao(),
             projeto.getLink(),
             projeto.getAno(),
-            projeto.getImagem()
+            projeto.getImagem(),
+            projeto.getReadme(),
+            List.copyOf(projeto.getTecnologias())
         );
     }
 }
