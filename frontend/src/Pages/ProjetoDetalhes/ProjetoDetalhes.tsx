@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { api, ApiError } from '../../services/api'
 import { useAuth } from '../../Context/AuthContext'
 import { ProjetoForm } from '../../components/ProjetoForm/ProjetoForm'
-import type { Projeto, ProjetoForm as Dados } from '../../services/projetos'
+import { enviarImagem, urlImagem, type Projeto, type ProjetoForm as Dados } from '../../services/projetos'
 
 export function ProjetoDetalhes() {
   const { projetoId } = useParams()
@@ -23,13 +23,14 @@ export function ProjetoDetalhes() {
       })
   }, [projetoId, token])
 
-  async function salvar(dados: Dados) {
+  async function salvar(dados: Dados, arquivo: File | null) {
     const atualizado = await api<Projeto>(`/api/projetos/${projetoId}`, {
       method: 'PUT',
       body: dados,
       token,
     })
-    setProjeto(atualizado)
+    const comImagem = arquivo && token ? await enviarImagem(atualizado.id, arquivo, token) : atualizado
+    setProjeto(comImagem)
     setEditando(false)
   }
 
@@ -98,7 +99,7 @@ export function ProjetoDetalhes() {
       ) : (
         <div className="mt-8 space-y-6">
           {projeto.imagem && (
-            <img src={projeto.imagem} alt="" className="w-full rounded-3xl object-cover" />
+            <img src={urlImagem(projeto.imagem) ?? undefined} alt="" className="w-full rounded-3xl object-cover" />
           )}
           {projeto.descricao && <p className="text-lg leading-relaxed text-[#1d1d1f]">{projeto.descricao}</p>}
           {projeto.link && (

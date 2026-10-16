@@ -4,7 +4,7 @@ import type { ProjetoForm as Dados } from '../../services/projetos'
 type Props = {
   inicial?: Dados
   textoBotao: string
-  onSalvar: (dados: Dados) => Promise<void>
+  onSalvar: (dados: Dados, arquivo: File | null) => Promise<void>
   onCancelar?: () => void
 }
 
@@ -17,6 +17,7 @@ export function ProjetoForm({ inicial = vazio, textoBotao, onSalvar, onCancelar 
   const [dados, setDados] = useState<Dados>(inicial)
   const [erro, setErro] = useState<string | null>(null)
   const [enviando, setEnviando] = useState(false)
+  const [arquivo, setArquivo] = useState<File | null>(null)
 
   async function enviar(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -27,7 +28,7 @@ export function ProjetoForm({ inicial = vazio, textoBotao, onSalvar, onCancelar 
     setErro(null)
     setEnviando(true)
     try {
-      await onSalvar({ ...dados, nome: dados.nome.trim(), link: dados.link.trim() })
+      await onSalvar({ ...dados, nome: dados.nome.trim(), link: dados.link.trim() }, arquivo)
     } catch (e) {
       setErro(e instanceof Error ? e.message : 'Não foi possível salvar o projeto.')
     } finally {
@@ -65,6 +66,16 @@ export function ProjetoForm({ inicial = vazio, textoBotao, onSalvar, onCancelar 
         value={dados.ano ?? ''}
         onChange={(e) => setDados({ ...dados, ano: e.target.value ? Number(e.target.value) : null })}
       />
+
+      <label className="block">
+        <span className="mb-2 block text-sm text-[#86868b]">Imagem de capa (JPG, PNG ou WEBP, até 5 MB)</span>
+        <input
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          onChange={(e) => setArquivo(e.target.files?.[0] ?? null)}
+          className="block w-full text-sm text-[#86868b] file:mr-4 file:rounded-full file:border-0 file:bg-[#f5f5f7] file:px-4 file:py-2 file:text-sm file:font-medium file:text-[#1d1d1f]"
+        />
+      </label>
 
       <label htmlFor="projeto-descricao" className="sr-only">Descrição</label>
       <textarea

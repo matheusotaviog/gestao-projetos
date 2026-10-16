@@ -1,3 +1,5 @@
+import { API_BASE_URL } from './api'
+
 export type Projeto = {
   id: number
   nome: string
@@ -19,4 +21,23 @@ export type Perfil = {
   nome: string
   bio: string | null
   projetos: Projeto[]
+}
+
+export function urlImagem(imagem: string | null): string | null {
+  if (!imagem) return null
+  return imagem.startsWith('/') ? `${API_BASE_URL}${imagem}` : imagem
+}
+
+export async function enviarImagem(id: number, arquivo: File, token: string): Promise<Projeto> {
+  const corpo = new FormData()
+  corpo.append('arquivo', arquivo)
+  const resposta = await fetch(`${API_BASE_URL}/api/projetos/${id}/imagem`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+    body: corpo,
+  })
+  if (!resposta.ok) {
+    throw new Error((await resposta.text()) || 'Não foi possível enviar a imagem.')
+  }
+  return (await resposta.json()) as Projeto
 }

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { api } from '../../services/api'
 import { useAuth } from '../../Context/AuthContext'
 import { ProjetoForm } from '../../components/ProjetoForm/ProjetoForm'
-import type { Projeto, ProjetoForm as Dados } from '../../services/projetos'
+import { enviarImagem, urlImagem, type Projeto, type ProjetoForm as Dados } from '../../services/projetos'
 
 export function Projetos() {
   const { token } = useAuth()
@@ -19,9 +19,10 @@ export function Projetos() {
       .finally(() => setCarregando(false))
   }, [token])
 
-  async function criar(dados: Dados) {
+  async function criar(dados: Dados, arquivo: File | null) {
     const novo = await api<Projeto>('/api/projetos', { method: 'POST', body: dados, token })
-    setProjetos((atual) => [novo, ...atual])
+    const comImagem = arquivo && token ? await enviarImagem(novo.id, arquivo, token) : novo
+    setProjetos((atual) => [comImagem, ...atual])
     setCriando(false)
   }
 
@@ -65,7 +66,7 @@ export function Projetos() {
             >
               <div className="aspect-video bg-gradient-to-br from-[#e8e8ed] to-[#d2d2d7]">
                 {projeto.imagem && (
-                  <img src={projeto.imagem} alt="" loading="lazy" className="h-full w-full object-cover" />
+                  <img src={urlImagem(projeto.imagem) ?? undefined} alt="" loading="lazy" className="h-full w-full object-cover" />
                 )}
               </div>
               <div className="p-5">

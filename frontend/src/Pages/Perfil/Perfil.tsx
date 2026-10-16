@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { api, ApiError } from '../../services/api'
-import type { Perfil as PerfilDados, Projeto } from '../../services/projetos'
+import { urlImagem, type Perfil as PerfilDados, type Projeto } from '../../services/projetos'
 
 function tomDoNome(nome: string): number {
   return [...nome].reduce((soma, letra) => soma + letra.charCodeAt(0), 0) % 360
@@ -13,7 +13,7 @@ function TileProjeto({ projeto }: { projeto: Projeto }) {
     <>
       {projeto.imagem ? (
         <img
-          src={projeto.imagem}
+          src={urlImagem(projeto.imagem) ?? undefined}
           alt=""
           loading="lazy"
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
