@@ -7,43 +7,41 @@ function tomDoNome(nome: string): number {
   return [...nome].reduce((soma, letra) => soma + letra.charCodeAt(0), 0) % 360
 }
 
-function CardProjeto({ projeto }: { projeto: Projeto }) {
+function TileProjeto({ projeto }: { projeto: Projeto }) {
   const tom = tomDoNome(projeto.nome)
-  return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] transition-all duration-500 hover:-translate-y-1 hover:border-[#ffab4a]/50 hover:shadow-[0_20px_60px_-20px_rgba(255,171,74,0.35)]">
-      <div className="aspect-[16/10] overflow-hidden">
-        {projeto.imagem ? (
-          <img src={projeto.imagem} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-        ) : (
-          <div
-            className="flex h-full w-full items-center justify-center text-5xl font-black text-white/90"
-            style={{ background: `linear-gradient(135deg, hsl(${tom} 85% 55%), hsl(${(tom + 60) % 360} 80% 25%))` }}
-          >
-            {projeto.nome.charAt(0).toUpperCase()}
-          </div>
-        )}
-      </div>
-
-      <div className="flex flex-1 flex-col gap-3 p-5">
-        <div className="flex items-baseline justify-between gap-3">
-          <h3 className="text-lg font-semibold">{projeto.nome}</h3>
-          {projeto.ano && <span className="text-sm text-white/50">{projeto.ano}</span>}
+  const conteudo = (
+    <>
+      {projeto.imagem ? (
+        <img
+          src={projeto.imagem}
+          alt=""
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      ) : (
+        <div
+          className="absolute inset-0 flex items-center justify-center text-6xl font-black text-white/90"
+          style={{ background: `linear-gradient(135deg, hsl(${tom} 85% 55%), hsl(${(tom + 60) % 360} 80% 25%))` }}
+        >
+          {projeto.nome.charAt(0).toUpperCase()}
         </div>
-        {projeto.descricao && (
-          <p className="line-clamp-3 text-sm leading-relaxed text-white/60">{projeto.descricao}</p>
-        )}
-        {projeto.link && (
-          <a
-            href={projeto.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-auto inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#ffab4a] to-[#ff4d8d] px-4 py-2 text-sm font-semibold text-[#0b0c10] transition-opacity hover:opacity-90"
-          >
-            Ver projeto ↗
-          </a>
-        )}
+      )}
+      <div className="absolute inset-0 flex flex-col justify-end bg-black/70 p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+        <p className="text-base font-semibold leading-tight">{projeto.nome}</p>
+        {projeto.ano && <p className="mt-1 text-xs text-white/60">{projeto.ano}</p>}
+        {projeto.descricao && <p className="mt-2 line-clamp-2 text-xs text-white/70">{projeto.descricao}</p>}
       </div>
-    </article>
+    </>
+  )
+
+  const classe = 'group relative block aspect-square overflow-hidden bg-[#15161b]'
+
+  return projeto.link ? (
+    <a href={projeto.link} target="_blank" rel="noopener noreferrer" aria-label={`${projeto.nome}, abre em nova aba`} className={classe}>
+      {conteudo}
+    </a>
+  ) : (
+    <div className={classe}>{conteudo}</div>
   )
 }
 
@@ -116,16 +114,16 @@ export function Perfil() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-6 pb-24">
+      <section className="mx-auto max-w-4xl px-6 pb-24">
         <h2 className="mb-6 border-t border-white/10 pt-8 text-sm font-semibold uppercase tracking-widest text-[#ffab4a]">Projetos</h2>
 
         {perfil.projetos.length === 0 ? (
           <p className="py-16 text-center text-white/50">Nenhum projeto publicado ainda.</p>
         ) : (
-          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="grid grid-cols-2 gap-1 sm:grid-cols-3">
             {perfil.projetos.map((projeto) => (
-              <li key={projeto.id} className="flex">
-                <CardProjeto projeto={projeto} />
+              <li key={projeto.id}>
+                <TileProjeto projeto={projeto} />
               </li>
             ))}
           </ul>
