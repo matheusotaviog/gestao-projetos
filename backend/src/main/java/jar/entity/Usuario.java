@@ -24,6 +24,13 @@ public class Usuario {
     @Column(length = 500)
     private String bio;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, columnDefinition = "varchar(20) not null default 'GESTOR'")
+    private Papel papel = Papel.GESTOR;
+
+    @Column(length = 80)
+    private String profissao;
+
     @Column(nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String senha;
@@ -50,6 +57,12 @@ public class Usuario {
 
     public String getBio() { return bio; }
     public void setBio(String bio) { this.bio = bio; }
+
+    public Papel getPapel() { return papel; }
+    public void setPapel(Papel papel) { this.papel = papel; }
+
+    public String getProfissao() { return profissao; }
+    public void setProfissao(String profissao) { this.profissao = profissao; }
 
     public String getSenha() { return senha; }
     public void setSenha(String senha) { this.senha = senha; }

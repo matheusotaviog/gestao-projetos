@@ -26,6 +26,6 @@ public class PerfilService {
         var projetos = projetoRepository.findByUsuarioOrderByDataCriacaoDesc(usuario).stream()
             .map(ProjetoResponse::de)
             .toList();
-        return new PerfilResponse(usuario.getUsername(), usuario.getNome(), usuario.getBio(), projetos);
+        return new PerfilResponse(usuario.getUsername(), usuario.getNome(), usuario.getProfissao(), usuario.getBio(), projetos);
     }
 }

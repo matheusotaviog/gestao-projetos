@@ -55,14 +55,12 @@ public class SecurityConfig {
                 )
             )
             .authorizeHttpRequests(auth -> auth
-                // Cadastro e login são públicos; o resto exige token
                 .requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll()
-                // Login é público
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/perfis/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/arquivos/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/tecnologias").permitAll()
-                // Outros endpoints requerem autenticação
+                .requestMatchers(HttpMethod.GET, "/api/perfis/**", "/api/arquivos/**", "/api/tecnologias", "/api/profissoes").permitAll()
+                .requestMatchers("/api/candidatos/**").hasAnyRole("RECRUTADOR", "ADMIN")
+                .requestMatchers("/api/admin/**", "/api/usuarios/**").hasRole("ADMIN")
+                .requestMatchers("/api/projetos/**").hasAnyRole("GESTOR", "ADMIN")
                 .anyRequest().authenticated()
             )
             .addFilterBefore(

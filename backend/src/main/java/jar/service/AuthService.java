@@ -28,6 +28,6 @@ public class AuthService {
             throw new BadCredentialsException("E-mail ou senha inválidos");
         }
 
-        return new LoginResponse(jwtService.gerarToken(usuario.getEmail()), usuario.getUsername());
+        return new LoginResponse(jwtService.gerarToken(usuario.getEmail()), usuario.getUsername(), usuario.getPapel().name());
     }
 }

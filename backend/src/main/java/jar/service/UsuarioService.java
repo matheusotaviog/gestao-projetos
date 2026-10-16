@@ -1,5 +1,8 @@
 package jar.service;
 
+import jar.catalogo.Profissoes;
+import jar.dto.UsuarioAdminResponse;
+import jar.entity.Papel;
 import jar.entity.Usuario;
 import jar.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.regex.Pattern;
 
 @Service
@@ -28,7 +32,7 @@ public class UsuarioService {
     // Obter por ID
     public Usuario obterPorId(Long id) {
         return repository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Usuário não encontrado com ID: " + id));
+            .orElseThrow(() -> new NoSuchElementException("Usuário não encontrado com ID: " + id));
     }
 
     // Obter por Email
@@ -53,6 +57,20 @@ public class UsuarioService {
             throw new RuntimeException("Nome de usuário já está em uso");
         }
         usuario.setUsername(username);
+        if (usuario.getPapel() == null) {
+            usuario.setPapel(Papel.GESTOR);
+        }
+        if (usuario.getPapel() == Papel.ADMIN) {
+            throw new IllegalArgumentException("Cadastro como administrador não é permitido");
+        }
+        String profissao = usuario.getProfissao() == null ? null : usuario.getProfissao().trim();
+        if (usuario.getPapel() == Papel.GESTOR && (profissao == null || profissao.isEmpty())) {
+            throw new IllegalArgumentException("Informe sua profissão");
+        }
+        if (profissao != null && !profissao.isEmpty() && !Profissoes.existe(profissao)) {
+            throw new IllegalArgumentException("Profissão desconhecida: " + profissao);
+        }
+        usuario.setProfissao(profissao == null || profissao.isEmpty() ? null : profissao);
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         usuario.setDataCriacao(LocalDateTime.now());
         return repository.save(usuario);
@@ -70,6 +88,35 @@ public class UsuarioService {
         }
         
         return repository.save(usuario);
+    }
+
+    public List<UsuarioAdminResponse> listarParaAdmin() {
+        return repository.findAll().stream().map(UsuarioAdminResponse::de).toList();
+    }
+
+    public UsuarioAdminResponse alterarPapel(Long id, String emailAdmin, String novoPapel) {
+        Usuario alvo = obterPorId(id);
+        if (alvo.getEmail().equals(emailAdmin)) {
+            throw new IllegalArgumentException("Você não pode alterar o próprio papel");
+        }
+        alvo.setPapel(lerPapel(novoPapel));
+        return UsuarioAdminResponse.de(repository.save(alvo));
+    }
+
+    public void removerParaAdmin(Long id, String emailAdmin) {
+        Usuario alvo = obterPorId(id);
+        if (alvo.getEmail().equals(emailAdmin)) {
+            throw new IllegalArgumentException("Você não pode remover a própria conta");
+        }
+        repository.delete(alvo);
+    }
+
+    private Papel lerPapel(String valor) {
+        try {
+            return Papel.valueOf(valor);
+        } catch (IllegalArgumentException | NullPointerException e) {
+            throw new IllegalArgumentException("Papel inválido");
+        }
     }
 
     // Deletar
