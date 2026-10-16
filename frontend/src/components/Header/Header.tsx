@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom'
+import { Logo } from '../Logo/Logo'
 import { useAuth } from '../../Context/AuthContext'
 
 const navigation = [
@@ -24,19 +25,7 @@ function Header() {
         <ul className="flex w-max items-center gap-8 text-xs text-[#1d1d1f]">
           <li>
             <NavLink to="/" aria-label="Mirrorwork" className="flex items-center">
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                className="h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                strokeLinecap="round"
-              >
-                <ellipse cx="12" cy="8.5" rx="6.5" ry="7.5" />
-                <path d="M9 6.5a4 4 0 0 1 2-2" />
-                <path d="M12 16v6" />
-              </svg>
+              <Logo className="h-6 w-6" />
             </NavLink>
           </li>
 
