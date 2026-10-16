@@ -9,6 +9,8 @@ import { Cadastro } from './Pages/Cadastro/Cadastro'
 import { Login } from './Pages/Login/Login'
 import { ProjetoDetalhes } from './Pages/ProjetoDetalhes/ProjetoDetalhes'
 import { Perfil } from './Pages/Perfil/Perfil'
+import { Candidatos } from './Pages/Candidatos/Candidatos'
+import { Admin } from './Pages/Admin/Admin'
 
 export function App() {
   return (
@@ -20,10 +22,16 @@ export function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro />} />
           <Route path="/perfil/:username" element={<Perfil />} />
-          <Route element={<ProtectedRoute />}>
+          <Route element={<ProtectedRoute papeis={['GESTOR', 'ADMIN']} />}>
             <Route path="/projetos" element={<Projetos />} />
             <Route path="/projetos/:projetoId" element={<ProjetoDetalhes />} />
             <Route path="/tarefas" element={<Tarefas />} />
+          </Route>
+          <Route element={<ProtectedRoute papeis={['RECRUTADOR', 'ADMIN']} />}>
+            <Route path="/candidatos" element={<Candidatos />} />
+          </Route>
+          <Route element={<ProtectedRoute papeis={['ADMIN']} />}>
+            <Route path="/admin" element={<Admin />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

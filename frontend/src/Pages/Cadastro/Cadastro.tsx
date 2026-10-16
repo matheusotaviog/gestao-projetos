@@ -1,10 +1,13 @@
 
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
+import { buscarProfissoes } from '../../services/usuarios'
 import { Link } from 'react-router-dom'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 type FormData = {
+  papel: 'GESTOR' | 'RECRUTADOR'
+  profissao: string
   nome: string
   username: string
   email: string
@@ -15,6 +18,8 @@ type FormData = {
 }
 
 const initialForm: FormData = {
+  papel: 'GESTOR',
+  profissao: '',
   nome: '',
   username: '',
   email: '',
@@ -25,6 +30,7 @@ const initialForm: FormData = {
 }
 
 function validar(form: FormData): string | null {
+  if (form.papel === 'GESTOR' && !form.profissao) return 'Escolha sua profissão.'
   if (!form.nome.trim()) return 'Informe seu nome.'
   if (!/^[a-z0-9_-]{3,30}$/.test(form.username.trim().toLowerCase())) return 'Nome de usuário: de 3 a 30 letras minúsculas, números, _ ou -.'
   if (!/^\S+@\S+\.\S+$/.test(form.email)) return 'Informe um e-mail válido.'
@@ -41,6 +47,11 @@ export function Cadastro() {
   const [erro, setErro] = useState<string | null>(null)
   const [sucesso, setSucesso] = useState(false)
   const [enviando, setEnviando] = useState(false)
+  const [profissoes, setProfissoes] = useState<string[]>([])
+
+  useEffect(() => {
+    buscarProfissoes().then(setProfissoes).catch(() => setErro('Não foi possível carregar as profissões.'))
+  }, [])
 
   function atualizar(campo: keyof FormData, valor: string) {
     setForm((atual) => ({ ...atual, [campo]: valor }))
@@ -64,6 +75,8 @@ export function Cadastro() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           nome: form.nome.trim(),
+          papel: form.papel,
+          profissao: form.papel === 'GESTOR' ? form.profissao : null,
           username: form.username.trim().toLowerCase(),
           bio: form.bio.trim() || null,
           email: form.email.trim(),
@@ -102,6 +115,32 @@ export function Cadastro() {
       </p>
 
       <form onSubmit={enviar} noValidate className="mt-10 space-y-3">
+        <fieldset className="grid grid-cols-2 gap-3">
+          <legend className="sr-only">Como você vai usar a plataforma</legend>
+          {[
+            { valor: 'GESTOR', titulo: 'Gestor de projetos', texto: 'Crio e apresento meus projetos.' },
+            { valor: 'RECRUTADOR', titulo: 'Recrutador', texto: 'Busco talentos pelos projetos.' },
+          ].map((opcao) => (
+            <label
+              key={opcao.valor}
+              className={`cursor-pointer rounded-xl border p-4 transition-colors ${
+                form.papel === opcao.valor ? 'border-[#0071e3] bg-[#0071e3]/5' : 'border-[#d2d2d7] bg-white hover:border-[#86868b]'
+              }`}
+            >
+              <input
+                type="radio"
+                name="papel"
+                value={opcao.valor}
+                checked={form.papel === opcao.valor}
+                onChange={() => atualizar('papel', opcao.valor)}
+                className="sr-only"
+              />
+              <span className="block text-sm font-semibold text-[#1d1d1f]">{opcao.titulo}</span>
+              <span className="mt-1 block text-xs text-[#6e6e73]">{opcao.texto}</span>
+            </label>
+          ))}
+        </fieldset>
+
         <label htmlFor="nome" className="sr-only">Nome</label>
         <input
           id="nome"
@@ -110,6 +149,23 @@ export function Cadastro() {
           value={form.nome}
           onChange={(e) => atualizar('nome', e.target.value)}
         />
+
+        {form.papel === 'GESTOR' && (
+          <>
+            <label htmlFor="profissao" className="sr-only">Profissão</label>
+            <select
+              id="profissao"
+              className={`${inputClass} appearance-none`}
+              value={form.profissao}
+              onChange={(e) => atualizar('profissao', e.target.value)}
+            >
+              <option value="">Sua profissão</option>
+              {profissoes.map((profissao) => (
+                <option key={profissao} value={profissao}>{profissao}</option>
+              ))}
+            </select>
+          </>
+        )}
 
         <label htmlFor="username" className="sr-only">Nome de usuário</label>
         <input

@@ -1,3 +1,4 @@
+import type { Papel } from '../../services/usuarios'
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../Context/AuthContext'
@@ -32,8 +33,8 @@ export function Login() {
         return
       }
 
-      const dados: { token: string; username: string | null } = await resposta.json()
-      login(dados.token, dados.username)
+      const dados: { token: string; username: string | null; papel: Papel } = await resposta.json()
+      login(dados.token, dados.username, dados.papel)
       navigate('/', { replace: true })
     } catch {
       setErro('Não foi possível conectar ao servidor. Verifique se o backend está rodando.')
