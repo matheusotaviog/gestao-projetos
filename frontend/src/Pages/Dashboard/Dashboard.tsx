@@ -30,7 +30,7 @@ function Dashboard() {
           Gestão de projetos · Perfil público
         </p>
         <h1 className="animate-fade-up mt-6 text-[clamp(3.5rem,13vw,11rem)] font-black uppercase leading-[0.85] tracking-tighter [animation-delay:150ms]">
-          Processos
+          Mirrorwork
         </h1>
         <div className="animate-fade-up mt-10 flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between [animation-delay:300ms]">
           <p className="max-w-md text-lg leading-relaxed text-[#f4f1ea]/75">

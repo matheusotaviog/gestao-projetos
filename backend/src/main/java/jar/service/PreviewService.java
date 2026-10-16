@@ -33,7 +33,7 @@ public class PreviewService {
 
             HttpRequest request = HttpRequest.newBuilder(uri)
                 .timeout(Duration.ofSeconds(5))
-                .header("User-Agent", "Processos-Preview/1.0")
+                .header("User-Agent", "Mirrorwork-Preview/1.0")
                 .GET()
                 .build();
 

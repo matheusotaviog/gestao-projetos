@@ -1,6 +1,6 @@
 # Frontend
 
-Interface web do projeto **Processos — Gestão de Estudos e Tarefas**.
+Interface web do projeto **Mirrorwork**.
 
 ## Tecnologias
 

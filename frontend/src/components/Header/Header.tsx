@@ -23,7 +23,7 @@ function Header() {
       >
         <ul className="flex w-max items-center gap-8 text-xs text-[#1d1d1f]">
           <li>
-            <NavLink to="/" aria-label="Processos" className="flex items-center">
+            <NavLink to="/" aria-label="Mirrorwork" className="flex items-center">
               <svg
                 aria-hidden="true"
                 viewBox="0 0 24 24"

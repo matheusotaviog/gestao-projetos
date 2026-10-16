@@ -63,7 +63,7 @@ function Footer() {
         </div>
 
         <div className="mt-6 flex flex-col gap-2 border-t border-black/10 pt-4 md:flex-row md:items-center md:justify-between">
-          <p>Copyright © {ano} Processos. Todos os direitos reservados.</p>
+          <p>Copyright © {ano} Mirrorwork. Todos os direitos reservados.</p>
           <p>Português (Brasil)</p>
         </div>
       </div>
