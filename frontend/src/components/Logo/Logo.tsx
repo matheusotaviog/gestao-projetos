@@ -7,15 +7,9 @@ type Props = {
 export function Logo({ className }: Props) {
   return (
     <svg viewBox="0 0 64 64" className={className} aria-hidden="true">
-      <defs>
-        <linearGradient id="mirrorwork-grad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#ffab4a" />
-          <stop offset="1" stopColor="#ff4d8d" />
-        </linearGradient>
-      </defs>
-      <rect width="64" height="64" rx="16" fill="url(#mirrorwork-grad)" />
-      <path d={M} fill="#0b0c10" />
-      <path d={M} fill="#0b0c10" opacity="0.35" transform="translate(0 72) scale(1 -1)" />
+      <rect width="64" height="64" rx="16" fill="#0b0c10" />
+      <path d={M} fill="#ffffff" />
+      <path d={M} fill="#ffffff" opacity="0.35" transform="translate(0 72) scale(1 -1)" />
     </svg>
   )
 }
