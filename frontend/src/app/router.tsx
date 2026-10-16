@@ -5,6 +5,7 @@ import { LoginPage } from '../features/auth/pages/LoginPage'
 import { CadastroPage } from '../features/auth/pages/CadastroPage'
 import { ProjectsPage } from '../features/projects/pages/ProjectsPage'
 import { ProjectDetailsPage } from '../features/projects/pages/ProjectDetailsPage'
+import { SchedulePage } from '../features/schedule/pages/SchedulePage'
 
 export const routes: RouteObject[] = [
   {
@@ -38,12 +39,7 @@ export const routes: RouteObject[] = [
       },
       {
         path: 'cronograma',
-        element: (
-          <PlaceholderPage
-            title="Cronograma"
-            description="Os compromissos e horários serão gerenciados aqui."
-          />
-        ),
+        element: <SchedulePage />,
       },
     ],
   },
