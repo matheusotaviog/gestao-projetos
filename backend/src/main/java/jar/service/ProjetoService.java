@@ -5,14 +5,15 @@ import jar.entity.Projeto;
 import jar.entity.Usuario;
 import jar.repository.ProjetoRepository;
 import jar.repository.UsuarioRepository;
+import java.io.IOException;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,7 +26,7 @@ public class ProjetoService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private PreviewService previewService;
+    private ImagemService imagemService;
 
     public List<Projeto> listarDoUsuario(String email) {
         return projetoRepository.findByUsuarioOrderByDataCriacaoDesc(donoPeloEmail(email));
@@ -66,12 +67,22 @@ public class ProjetoService {
 
         projeto.setNome(dados.nome().trim());
         projeto.setDescricao(dados.descricao());
+        projeto.setLink(novoLink);
         projeto.setAno(dados.ano() != null ? dados.ano() : anoAtual(projeto));
+    }
 
-        if (!Objects.equals(projeto.getLink(), novoLink)) {
-            projeto.setLink(novoLink);
-            projeto.setImagem(novoLink == null ? null : previewService.buscarImagem(novoLink));
-        }
+    public Projeto trocarImagem(Long id, String email, MultipartFile arquivo) throws IOException {
+        Projeto projeto = obterDoDono(id, email);
+        String antiga = nomeDoArquivo(projeto.getImagem());
+        String nova = imagemService.salvar(arquivo);
+        projeto.setImagem("/api/arquivos/" + nova);
+        Projeto salvo = projetoRepository.save(projeto);
+        imagemService.remover(antiga);
+        return salvo;
+    }
+
+    private String nomeDoArquivo(String caminho) {
+        return caminho == null ? null : caminho.substring(caminho.lastIndexOf('/') + 1);
     }
 
     private void validarLink(String link) {

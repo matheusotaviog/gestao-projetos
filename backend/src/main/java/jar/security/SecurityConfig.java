@@ -45,6 +45,7 @@ public class SecurityConfig {
                 // Login é público
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/perfis/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/arquivos/**").permitAll()
                 // Outros endpoints requerem autenticação
                 .anyRequest().authenticated()
             )

@@ -4,6 +4,9 @@ import jar.dto.ProjetoRequest;
 import jar.dto.ProjetoResponse;
 import jar.entity.Projeto;
 import jar.service.ProjetoService;
+import java.io.IOException;
+import org.springframework.http.MediaType;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +48,25 @@ public class ProjetoController {
         Authentication auth
     ) {
         return responder(() -> ProjetoResponse.de(service.atualizar(id, auth.getName(), dados)));
+    }
+
+    @PostMapping(value = "/{id}/imagem", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> enviarImagem(
+        @PathVariable Long id,
+        @RequestParam("arquivo") MultipartFile arquivo,
+        Authentication auth
+    ) {
+        try {
+            return ResponseEntity.ok(ProjetoResponse.de(service.trocarImagem(id, auth.getName(), arquivo)));
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Não foi possível salvar a imagem");
+        }
     }
 
     @DeleteMapping("/{id}")
