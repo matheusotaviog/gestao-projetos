@@ -25,7 +25,7 @@ function Footer() {
   return (
     <footer className="bg-[#f5f5f7] text-xs text-[#6e6e73]">
       <div className="mx-auto max-w-5xl px-6 pt-6 pb-4">
-        <p className="leading-relaxed">
+        <p className="max-w-none text-xs leading-relaxed">
           Projeto final da Formação de Desenvolvedor Full Stack da +praTi.
         </p>
 
@@ -62,9 +62,9 @@ function Footer() {
           </div>
         </div>
 
-        <div className="mt-6 flex flex-col gap-2 border-t border-black/10 pt-4 md:flex-row md:items-center md:justify-between">
-          <p>Copyright © {ano} Mirrorwork. Todos os direitos reservados.</p>
-          <p>Português (Brasil)</p>
+        <div className="mt-6 flex flex-col gap-2 border-t border-black/10 pt-4 text-[11px] leading-relaxed text-[#6e6e73] md:flex-row md:items-center md:justify-between">
+          <p className="max-w-none text-[11px] leading-relaxed">Copyright © {ano} Mirrorwork. Todos os direitos reservados.</p>
+          <p className="max-w-none text-[11px] leading-relaxed">Português (Brasil)</p>
         </div>
       </div>
     </footer>
