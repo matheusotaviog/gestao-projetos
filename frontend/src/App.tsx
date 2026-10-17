@@ -12,6 +12,7 @@ import { ProjetoDetalhes } from './Pages/ProjetoDetalhes/ProjetoDetalhes'
 import { Perfil } from './Pages/Perfil/Perfil'
 import { Candidatos } from './Pages/Candidatos/Candidatos'
 import { Admin } from './Pages/Admin/Admin'
+import { EditarPerfil } from './Pages/EditarPerfil/EditarPerfil'
 
 const DURACAO_SAIDA = 260
 
@@ -51,6 +52,9 @@ export function App() {
           </Route>
           <Route element={<ProtectedRoute papeis={['RECRUTADOR', 'ADMIN']} />}>
             <Route path="/candidatos" element={<Candidatos />} />
+          </Route>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/editar-perfil" element={<EditarPerfil />} />
           </Route>
           <Route element={<ProtectedRoute papeis={['ADMIN']} />}>
             <Route path="/admin" element={<Admin />} />

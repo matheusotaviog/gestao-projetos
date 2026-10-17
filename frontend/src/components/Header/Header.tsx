@@ -40,7 +40,7 @@ function Header() {
             </li>
           ))}
 
-          {token && username && papel === 'GESTOR' && (
+          {token && username && (
             <li>
               <NavLink to={`/perfil/${username}`} className="whitespace-nowrap opacity-80 hover:opacity-100">Meu perfil</NavLink>
             </li>

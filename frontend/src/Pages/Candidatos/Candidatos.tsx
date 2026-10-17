@@ -5,6 +5,7 @@ import { buscarTecnologias, type GrupoTecnologias } from '../../services/projeto
 import { buscarCandidatos, buscarProfissoes, listarTecnologiasPlanas, type Candidato } from '../../services/usuarios'
 import { TecnologiaIcon } from '../../components/TecnologiasPicker/TecnologiaIcon'
 import { SkeletonCandidatos } from '../../components/Skeleton/Skeleton'
+import { urlAvatar } from '../../services/perfil'
 
 const campo =
   'h-11 w-full rounded-xl border border-[#d2d2d7] bg-white px-4 text-sm text-[#1d1d1f] outline-none transition focus:border-[#0071e3] focus:ring-4 focus:ring-[#0071e3]/20'
@@ -95,8 +96,12 @@ export function Candidatos() {
               className="flex h-full flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
             >
               <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#ffab4a] to-[#ff4d8d] text-lg font-bold text-[#0b0c10]">
-                  {candidato.nome.charAt(0).toUpperCase()}
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-[#ffab4a] to-[#ff4d8d] text-lg font-bold text-[#0b0c10]">
+                  {urlAvatar(candidato.avatar) ? (
+                    <img src={urlAvatar(candidato.avatar) ?? undefined} alt="" className="h-full w-full object-cover" />
+                  ) : (
+                    candidato.nome.charAt(0).toUpperCase()
+                  )}
                 </div>
                 <div className="min-w-0">
                   <p className="truncate font-semibold text-[#1d1d1f]">{candidato.nome}</p>

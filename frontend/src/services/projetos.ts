@@ -28,7 +28,14 @@ export type GrupoTecnologias = {
 export type Perfil = {
   username: string
   nome: string
+  profissao: string | null
   bio: string | null
+  avatar: string | null
+  cidade: string | null
+  empresa: string | null
+  github: string | null
+  linkedin: string | null
+  site: string | null
   projetos: Projeto[]
 }
 

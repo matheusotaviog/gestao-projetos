@@ -7,6 +7,7 @@ export type Candidato = {
   username: string
   nome: string
   profissao: string | null
+  avatar: string | null
   tecnologias: string[]
 }
 

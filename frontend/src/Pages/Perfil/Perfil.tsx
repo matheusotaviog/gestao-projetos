@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { api, ApiError } from '../../services/api'
 import { urlImagem, type Perfil as PerfilDados, type Projeto } from '../../services/projetos'
+import { urlAvatar } from '../../services/perfil'
 import { ProjetoModal } from '../../components/ProjetoModal/ProjetoModal'
 import { SkeletonPerfil } from '../../components/Skeleton/Skeleton'
 import { useChat } from '../../components/Chat/ChatWidget'
@@ -58,7 +59,7 @@ function TileProjeto({ projeto, onDetalhes }: { projeto: Projeto; onDetalhes: ()
 
 export function Perfil() {
   const { username } = useParams()
-  const { papel } = useAuth()
+  const { papel, username: meuUsername } = useAuth()
   const { abrirCom } = useChat()
   const [perfil, setPerfil] = useState<PerfilDados | null>(null)
   const [erro, setErro] = useState<string | null>(null)
@@ -101,9 +102,13 @@ export function Perfil() {
       />
       <section className="relative mx-auto max-w-5xl px-6 pb-12 pt-16">
         <div className="flex flex-col gap-8 sm:flex-row sm:items-center">
-          <div className="rounded-full bg-gradient-to-br from-[#ffab4a] to-[#ff4d8d] p-[3px] shadow-[0_0_50px_-10px_rgba(255,120,80,0.6)]">
-            <div className="flex h-28 w-28 items-center justify-center rounded-full bg-[#0b0c10] text-4xl font-black">
-              {perfil.nome.charAt(0).toUpperCase()}
+          <div className="rounded-full bg-gradient-to-br from-[#ffab4a] to-[#ff4d8d] p-[3px] shadow-[0_0_50px_-10px_rgba(255,120,80,0.6)] transition-transform duration-500 hover:scale-105">
+            <div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-full bg-[#0b0c10] text-4xl font-black">
+              {urlAvatar(perfil.avatar) ? (
+                <img src={urlAvatar(perfil.avatar) ?? undefined} alt="" className="h-full w-full object-cover" />
+              ) : (
+                perfil.nome.charAt(0).toUpperCase()
+              )}
             </div>
           </div>
           <div className="min-w-0">
@@ -118,6 +123,23 @@ export function Perfil() {
               </button>
             )}
             <p className="mt-1 text-sm font-medium text-[#ffab4a]">@{perfil.username}</p>
+            {(perfil.profissao || perfil.cidade || perfil.empresa) && (
+              <p className="mt-2 text-sm text-white/60">
+                {[perfil.profissao, perfil.empresa, perfil.cidade].filter(Boolean).join(' · ')}
+              </p>
+            )}
+            {meuUsername === perfil.username && (
+              <Link to="/editar-perfil" className="mt-4 inline-block rounded-full border border-white/20 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10">
+                Editar perfil
+              </Link>
+            )}
+            {(perfil.github || perfil.linkedin || perfil.site) && (
+              <div className="mt-4 flex flex-wrap gap-3 text-sm">
+                {perfil.github && <a href={perfil.github} target="_blank" rel="noopener noreferrer" className="text-white/70 underline-offset-4 hover:text-white hover:underline">GitHub ↗</a>}
+                {perfil.linkedin && <a href={perfil.linkedin} target="_blank" rel="noopener noreferrer" className="text-white/70 underline-offset-4 hover:text-white hover:underline">LinkedIn ↗</a>}
+                {perfil.site && <a href={perfil.site} target="_blank" rel="noopener noreferrer" className="text-white/70 underline-offset-4 hover:text-white hover:underline">Site ↗</a>}
+              </div>
+            )}
 
             <dl className="mt-5 flex gap-8 text-sm">
               <div>
