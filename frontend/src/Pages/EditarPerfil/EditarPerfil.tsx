@@ -22,8 +22,13 @@ export function EditarPerfil() {
   useEffect(() => {
     if (!token) return
     obterMeuPerfil(token).then(setPerfil).catch(() => setMensagem({ tipo: 'erro', texto: 'Não foi possível carregar seu perfil.' }))
-    buscarProfissoes().then(setProfissoes).catch(() => undefined)
   }, [token])
+
+  useEffect(() => {
+    buscarProfissoes()
+      .then(setProfissoes)
+      .catch(() => setMensagem({ tipo: 'erro', texto: 'Não foi possível carregar a lista de profissões. Atualize a página.' }))
+  }, [])
 
   function atualizar<K extends keyof PerfilPessoal>(campoAlterado: K, valor: PerfilPessoal[K]) {
     setPerfil((atual) => (atual ? { ...atual, [campoAlterado]: valor } : atual))
@@ -129,9 +134,11 @@ export function EditarPerfil() {
           {ehGestor && (
             <div>
               <label htmlFor="profissao" className={rotulo}>Profissão</label>
-              <select id="profissao" className={campo} value={perfil.profissao ?? ''} onChange={(e) => atualizar('profissao', e.target.value || null)}>
-                <option value="">Escolha sua profissão</option>
-                {profissoes.map((p) => <option key={p} value={p}>{p}</option>)}
+              <select id="profissao" className={`${campo} [&>option]:bg-[#15161c]`} value={perfil.profissao ?? ''} onChange={(e) => atualizar('profissao', e.target.value || null)}>
+                <option value="" className="bg-[#15161c] text-white">Escolha sua profissão</option>
+                {profissoes.map((p) => (
+                  <option key={p} value={p} className="bg-[#15161c] text-white">{p}</option>
+                ))}
               </select>
             </div>
           )}
