@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../../Context/AuthContext'
 import { alterarPapel, listarUsuarios, removerUsuario, type Papel, type UsuarioAdmin } from '../../services/usuarios'
+import { SkeletonLinhas } from '../../components/Skeleton/Skeleton'
 
 const PAPEIS: { valor: Papel; rotulo: string }[] = [
   { valor: 'GESTOR', rotulo: 'Gestor' },
@@ -51,7 +52,7 @@ export function Admin() {
       <p className="mt-2 text-base text-[#6e6e73]">Gerencie os papéis e as contas da plataforma.</p>
 
       {erro && <p role="alert" className="mt-6 text-sm text-[#d70015]">{erro}</p>}
-      {carregando && <p className="mt-8 text-[#6e6e73]">Carregando...</p>}
+      {carregando && <SkeletonLinhas />}
 
       {!carregando && (
         <div className="mt-8 overflow-x-auto rounded-2xl bg-white shadow-sm">

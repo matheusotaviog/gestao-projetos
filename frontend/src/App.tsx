@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
@@ -13,10 +13,12 @@ import { Candidatos } from './Pages/Candidatos/Candidatos'
 import { Admin } from './Pages/Admin/Admin'
 
 export function App() {
+  const location = useLocation()
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
       <main className="flex-1">
+        <div key={location.pathname} className="page-in">
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
@@ -35,6 +37,7 @@ export function App() {
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        </div>
       </main>
       <Footer />
     </div>

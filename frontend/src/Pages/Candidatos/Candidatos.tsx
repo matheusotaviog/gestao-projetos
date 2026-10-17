@@ -4,6 +4,7 @@ import { useAuth } from '../../Context/AuthContext'
 import { buscarTecnologias, type GrupoTecnologias } from '../../services/projetos'
 import { buscarCandidatos, buscarProfissoes, listarTecnologiasPlanas, type Candidato } from '../../services/usuarios'
 import { TecnologiaIcon } from '../../components/TecnologiasPicker/TecnologiaIcon'
+import { SkeletonCandidatos } from '../../components/Skeleton/Skeleton'
 
 const campo =
   'h-11 w-full rounded-xl border border-[#d2d2d7] bg-white px-4 text-sm text-[#1d1d1f] outline-none transition focus:border-[#0071e3] focus:ring-4 focus:ring-[#0071e3]/20'
@@ -80,7 +81,7 @@ export function Candidatos() {
       </div>
 
       {erro && <p role="alert" className="mt-6 text-sm text-[#d70015]">{erro}</p>}
-      {carregando && <p className="mt-8 text-[#6e6e73]">Buscando...</p>}
+      {carregando && <SkeletonCandidatos />}
 
       {!carregando && candidatos.length === 0 && (
         <p className="mt-12 text-center text-[#6e6e73]">Nenhum candidato encontrado com esses filtros.</p>

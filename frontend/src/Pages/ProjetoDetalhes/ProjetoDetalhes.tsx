@@ -4,6 +4,7 @@ import { api, ApiError } from '../../services/api'
 import { useAuth } from '../../Context/AuthContext'
 import { ProjetoForm } from '../../components/ProjetoForm/ProjetoForm'
 import { TecnologiaIcon } from '../../components/TecnologiasPicker/TecnologiaIcon'
+import { SkeletonDetalhes } from '../../components/Skeleton/Skeleton'
 import { enviarImagem, urlImagem, type Projeto, type ProjetoForm as Dados } from '../../services/projetos'
 
 export function ProjetoDetalhes() {
@@ -51,7 +52,7 @@ export function ProjetoDetalhes() {
   }
 
   if (!projeto) {
-    return <p className="mx-auto max-w-3xl px-6 py-16">Carregando...</p>
+    return <SkeletonDetalhes />
   }
 
   return (

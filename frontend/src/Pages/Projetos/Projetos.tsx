@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { api } from '../../services/api'
 import { useAuth } from '../../Context/AuthContext'
 import { ProjetoForm } from '../../components/ProjetoForm/ProjetoForm'
+import { SkeletonProjetos } from '../../components/Skeleton/Skeleton'
 import { enviarImagem, urlImagem, type Projeto, type ProjetoForm as Dados } from '../../services/projetos'
 
 export function Projetos() {
@@ -51,7 +52,7 @@ export function Projetos() {
       )}
 
       {erro && <p role="alert" className="mt-8 text-sm text-[#d70015]">{erro}</p>}
-      {carregando && <p className="mt-8">Carregando...</p>}
+      {carregando && <SkeletonProjetos />}
 
       {!carregando && projetos.length === 0 && !criando && (
         <p className="mt-8">Você ainda não tem projetos. Clique em "Novo projeto" para começar.</p>

@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { api, ApiError } from '../../services/api'
 import { urlImagem, type Perfil as PerfilDados, type Projeto } from '../../services/projetos'
 import { ProjetoModal } from '../../components/ProjetoModal/ProjetoModal'
+import { SkeletonPerfil } from '../../components/Skeleton/Skeleton'
 import { useChat } from '../../components/Chat/ChatWidget'
 import { useAuth } from '../../Context/AuthContext'
 
@@ -81,7 +82,7 @@ export function Perfil() {
   }
 
   if (!perfil) {
-    return <div className="min-h-[70vh] bg-[#0b0c10]" />
+    return <div className="min-h-[70vh] bg-[#0b0c10] px-6"><SkeletonPerfil /></div>
   }
 
   const anos = perfil.projetos.map((p) => p.ano).filter((a): a is number => a !== null)
