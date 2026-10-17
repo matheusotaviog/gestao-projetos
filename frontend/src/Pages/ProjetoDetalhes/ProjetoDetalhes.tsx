@@ -14,6 +14,7 @@ export function ProjetoDetalhes() {
   const [projeto, setProjeto] = useState<Projeto | null>(null)
   const [erro, setErro] = useState<string | null>(null)
   const [editando, setEditando] = useState(false)
+  const [erroAcao, setErroAcao] = useState<string | null>(null)
 
   useEffect(() => {
     api<Projeto>(`/api/projetos/${projetoId}`, { token })
@@ -38,8 +39,13 @@ export function ProjetoDetalhes() {
 
   async function excluir() {
     if (!window.confirm('Excluir este projeto? Essa ação não pode ser desfeita.')) return
-    await api(`/api/projetos/${projetoId}`, { method: 'DELETE', token })
-    navigate('/projetos', { replace: true })
+    setErroAcao(null)
+    try {
+      await api(`/api/projetos/${projetoId}`, { method: 'DELETE', token })
+      navigate('/projetos', { replace: true })
+    } catch (e) {
+      setErroAcao(e instanceof Error ? e.message : 'Não foi possível excluir o projeto.')
+    }
   }
 
   if (erro) {
@@ -83,6 +89,8 @@ export function ProjetoDetalhes() {
           </div>
         )}
       </div>
+
+      {erroAcao && <p role="alert" className="mt-4 text-sm text-red-400">{erroAcao}</p>}
 
       {editando ? (
         <div className="mt-8">
