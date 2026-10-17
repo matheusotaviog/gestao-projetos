@@ -11,12 +11,25 @@ type Props = {
 
 export function ProjetoModal({ projeto, onFechar }: Props) {
   const [lendoTudo, setLendoTudo] = useState(false)
+  const [montado, setMontado] = useState(false)
+  const [fechando, setFechando] = useState(false)
+  const visivel = montado && !fechando
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setMontado(true))
+    return () => cancelAnimationFrame(frame)
+  }, [])
+
+  const fechar = () => {
+    setFechando(true)
+    setTimeout(onFechar, 220)
+  }
   const readme = projeto.readme ?? ''
   const readmeLongo = readme.length > LIMITE_README
 
   useEffect(() => {
     function fecharComEscape(evento: KeyboardEvent) {
-      if (evento.key === 'Escape') onFechar()
+      if (evento.key === 'Escape') fechar()
     }
     document.addEventListener('keydown', fecharComEscape)
     const overflow = document.body.style.overflow
@@ -25,20 +38,20 @@ export function ProjetoModal({ projeto, onFechar }: Props) {
       document.removeEventListener('keydown', fecharComEscape)
       document.body.style.overflow = overflow
     }
-  }, [onFechar])
+  }, [])
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm transition-opacity duration-300 ease-out ${visivel ? 'opacity-100' : 'opacity-0'}`}
       onMouseDown={(e) => {
-        if (e.target === e.currentTarget) onFechar()
+        if (e.target === e.currentTarget) fechar()
       }}
     >
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="projeto-modal-titulo"
-        className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-3xl border border-white/10 bg-[#0f1015] p-8 text-white shadow-2xl"
+        className={`max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-3xl border border-white/10 bg-[#0f1015] p-8 text-white shadow-2xl transition-all duration-300 ease-[cubic-bezier(0.2,0.7,0.2,1)] ${visivel ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-4 scale-95 opacity-0'}`}
       >
         <div className="flex items-start justify-between gap-6">
           <div>
@@ -47,7 +60,7 @@ export function ProjetoModal({ projeto, onFechar }: Props) {
           </div>
           <button
             type="button"
-            onClick={onFechar}
+            onClick={fechar}
             aria-label="Fechar"
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-lg hover:bg-white/20"
           >

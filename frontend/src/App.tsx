@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
@@ -12,14 +13,33 @@ import { Perfil } from './Pages/Perfil/Perfil'
 import { Candidatos } from './Pages/Candidatos/Candidatos'
 import { Admin } from './Pages/Admin/Admin'
 
+const DURACAO_SAIDA = 260
+
 export function App() {
   const location = useLocation()
+  const [exibida, setExibida] = useState(location)
+  const [saindo, setSaindo] = useState(false)
+
+  useEffect(() => {
+    if (location.pathname === exibida.pathname) {
+      setExibida(location)
+      return
+    }
+    setSaindo(true)
+    const timer = setTimeout(() => {
+      setExibida(location)
+      setSaindo(false)
+      window.scrollTo({ top: 0 })
+    }, DURACAO_SAIDA)
+    return () => clearTimeout(timer)
+  }, [location, exibida.pathname])
+
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
       <main className="flex-1">
-        <div key={location.pathname} className="page-in">
-        <Routes>
+        <div key={exibida.pathname} className={saindo ? 'page-out' : 'page-in'}>
+        <Routes location={exibida}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro />} />

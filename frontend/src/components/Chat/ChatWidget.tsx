@@ -43,13 +43,17 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   const [mensagens, setMensagens] = useState<Mensagem[]>([])
   const [texto, setTexto] = useState('')
   const [erro, setErro] = useState<string | null>(null)
+  const [carregandoConversas, setCarregandoConversas] = useState(true)
   const fimRef = useRef<HTMLDivElement>(null)
 
   const podeConversar = !!token && (papel === 'GESTOR' || papel === 'RECRUTADOR')
 
   const carregarConversas = useCallback(() => {
     if (!token) return Promise.resolve()
-    return api<Conversa[]>('/api/chat/conversas', { token }).then(setConversas).catch(() => undefined)
+    return api<Conversa[]>('/api/chat/conversas', { token })
+      .then(setConversas)
+      .catch(() => undefined)
+      .finally(() => setCarregandoConversas(false))
   }, [token])
 
   const carregarMensagens = useCallback((id: number) => {
@@ -126,7 +130,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
               <IconeChevronCima className="h-4 w-4 text-white/60" />
             </button>
           ) : (
-            <div className="flex h-[34rem] flex-col overflow-hidden rounded-t-2xl border border-b-0 border-white/10 bg-[#15161c] shadow-[0_-10px_50px_-10px_rgba(0,0,0,0.7)]">
+            <div className="animate-slide-up flex h-[34rem] flex-col overflow-hidden rounded-t-2xl border border-b-0 border-white/10 bg-[#15161c] shadow-[0_-10px_50px_-10px_rgba(0,0,0,0.7)]">
               {ativa ? (
                 <>
                   <div className="flex items-center gap-2 border-b border-white/10 px-3 py-3">
@@ -202,7 +206,20 @@ export function ChatProvider({ children }: { children: ReactNode }) {
                   </div>
                   {erro && <p role="alert" className="px-4 pt-3 text-sm text-red-400">{erro}</p>}
                   <div className="flex-1 overflow-y-auto py-1">
-                    {conversas.length === 0 && (
+                    {carregandoConversas && (
+                      <div role="status" aria-label="Carregando conversas" className="space-y-4 px-4 py-4">
+                        {[0, 1, 2, 3].map((i) => (
+                          <div key={i} className="flex items-center gap-3">
+                            <div className="h-11 w-11 shrink-0 animate-pulse rounded-full bg-white/10" />
+                            <div className="flex-1 space-y-2">
+                              <div className="h-3 w-1/2 animate-pulse rounded bg-white/10" />
+                              <div className="h-3 w-4/5 animate-pulse rounded bg-white/5" />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {!carregandoConversas && conversas.length === 0 && (
                       <div className="flex flex-col items-center gap-3 px-6 py-14 text-center">
                         <IconeMensagem className="h-10 w-10 text-white/20" />
                         <p className="text-sm text-white/50">

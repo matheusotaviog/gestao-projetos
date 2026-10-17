@@ -103,7 +103,37 @@ input:focus-visible {
 }
 
 .page-in {
-  animation: page-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation: page-in 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes page-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.page-out {
+  animation: page-out 0.26s cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
 @layer base {
@@ -167,7 +197,9 @@ input:focus-visible {
   .animate-pop,
   .animate-marquee,
   .animate-spin-slow,
-  .animate-shimmer {
+  .animate-shimmer,
+  .page-out,
+  .animate-slide-up {
     animation: none;
   }
 }
