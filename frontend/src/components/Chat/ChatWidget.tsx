@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react'
 import { api } from '../../services/api'
 import { useAuth } from '../../Context/AuthContext'
+import { IconeChevronBaixo, IconeChevronCima, IconeEnviar, IconeMensagem, IconeNovaMensagem, IconeVoltar } from './ChatIcons'
 
 type Conversa = {
   id: number
@@ -101,87 +102,124 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  const avatarProprio = (
+    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#ffab4a] to-[#ff4d8d] text-sm font-bold text-[#0b0c10] shadow-[0_0_20px_-4px_rgba(255,120,80,0.6)]">
+      {papel === 'GESTOR' ? 'G' : 'R'}
+    </span>
+  )
+
+  const botaoIcone = 'flex h-8 w-8 items-center justify-center rounded-full text-white/60 transition-colors hover:bg-white/10 hover:text-white'
+
   return (
     <ChatContext.Provider value={{ abrirCom }}>
       {children}
       {podeConversar && (
-        <div className="fixed bottom-0 right-6 z-40 w-80 text-white">
+        <div className="fixed bottom-0 right-6 z-40 w-[22rem] font-sans text-white">
           {!aberto ? (
             <button
               type="button"
               onClick={() => setAberto(true)}
-              className="flex w-full items-center gap-3 rounded-t-xl border border-b-0 border-white/10 bg-[#1b1d23] px-4 py-2.5 shadow-2xl"
+              className="flex w-full items-center gap-3 rounded-t-2xl border border-b-0 border-white/10 bg-[#15161c]/95 px-4 py-3 shadow-[0_-10px_40px_-10px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-colors hover:bg-[#1b1d25]"
             >
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[#ffab4a] to-[#ff4d8d] text-sm font-bold text-[#0b0c10]">
-                {iniciais(papel === 'GESTOR' ? 'G' : 'R')}
-              </span>
-              <span className="flex-1 text-left text-sm font-semibold">Mensagens</span>
-              <span aria-hidden="true">^</span>
+              {avatarProprio}
+              <span className="flex-1 text-left text-sm font-semibold tracking-tight">Mensagens</span>
+              <IconeChevronCima className="h-4 w-4 text-white/60" />
             </button>
           ) : (
-            <div className="flex h-[32rem] flex-col overflow-hidden rounded-t-xl border border-b-0 border-white/10 bg-[#1b1d23] shadow-2xl">
+            <div className="flex h-[34rem] flex-col overflow-hidden rounded-t-2xl border border-b-0 border-white/10 bg-[#15161c] shadow-[0_-10px_50px_-10px_rgba(0,0,0,0.7)]">
               {ativa ? (
                 <>
-                  <div className="flex items-center gap-3 border-b border-white/10 px-4 py-3">
-                    <button type="button" onClick={() => { setAtiva(null); setMensagens([]) }} aria-label="Voltar" className="text-white/70 hover:text-white">‹</button>
+                  <div className="flex items-center gap-2 border-b border-white/10 px-3 py-3">
+                    <button type="button" onClick={() => { setAtiva(null); setMensagens([]) }} aria-label="Voltar" className={botaoIcone}>
+                      <IconeVoltar className="h-4 w-4" />
+                    </button>
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-sm font-semibold">
+                      {iniciais(ativa.outroNome)}
+                    </span>
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-semibold">{ativa.outroNome}</p>
                       {ativa.outroProfissao && <p className="truncate text-xs text-white/50">{ativa.outroProfissao}</p>}
                     </div>
-                    <button type="button" onClick={() => setAberto(false)} aria-label="Minimizar" className="text-white/70 hover:text-white">⌄</button>
+                    <button type="button" onClick={() => setAberto(false)} aria-label="Minimizar" className={botaoIcone}>
+                      <IconeChevronBaixo className="h-4 w-4" />
+                    </button>
                   </div>
 
-                  <div className="flex-1 space-y-2 overflow-y-auto px-4 py-3">
-                    {mensagens.length === 0 && <p className="pt-8 text-center text-sm text-white/40">Diga oi para começar a conversa.</p>}
+                  <div className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
+                    {mensagens.length === 0 && (
+                      <div className="flex flex-col items-center gap-2 pt-12 text-center">
+                        <IconeMensagem className="h-10 w-10 text-white/20" />
+                        <p className="text-sm text-white/50">Diga oi para começar a conversa.</p>
+                      </div>
+                    )}
                     {mensagens.map((m) => (
                       <div key={m.id} className={`flex ${m.minha ? 'justify-end' : 'justify-start'}`}>
-                        <div className={`max-w-[80%] whitespace-pre-wrap rounded-2xl px-3 py-2 text-sm ${m.minha ? 'bg-[#0a66c2] text-white' : 'bg-white/10 text-white'}`}>
+                        <div
+                          className={`max-w-[80%] whitespace-pre-wrap rounded-2xl px-3.5 py-2 text-sm leading-relaxed shadow-sm ${
+                            m.minha
+                              ? 'rounded-br-md bg-gradient-to-br from-[#ffab4a] to-[#ff4d8d] text-[#0b0c10]'
+                              : 'rounded-bl-md bg-white/10 text-white'
+                          }`}
+                        >
                           {m.texto}
-                          <p className="mt-1 text-right text-[10px] text-white/50">{m.criadaEm}</p>
+                          <p className={`mt-1 text-right text-[10px] ${m.minha ? 'text-[#0b0c10]/60' : 'text-white/40'}`}>{m.criadaEm}</p>
                         </div>
                       </div>
                     ))}
                     <div ref={fimRef} />
                   </div>
 
-                  <form onSubmit={enviar} className="flex gap-2 border-t border-white/10 p-3">
+                  <form onSubmit={enviar} className="flex items-center gap-2 border-t border-white/10 p-3">
                     <input
                       value={texto}
                       onChange={(e) => setTexto(e.target.value)}
                       maxLength={2000}
-                      placeholder="Escreva uma mensagem"
+                      placeholder="Escreva uma mensagem..."
                       aria-label="Mensagem"
-                      className="h-10 flex-1 rounded-full bg-white/10 px-4 text-sm text-white outline-none placeholder:text-white/40"
+                      className="h-10 flex-1 rounded-full border border-white/10 bg-white/5 px-4 text-sm text-white outline-none transition placeholder:text-white/35 focus:border-[#ffab4a]/50"
                     />
-                    <button type="submit" disabled={!texto.trim()} className="rounded-full bg-[#0a66c2] px-4 text-sm font-semibold disabled:opacity-40">
-                      Enviar
+                    <button
+                      type="submit"
+                      disabled={!texto.trim()}
+                      aria-label="Enviar"
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#ffab4a] to-[#ff4d8d] text-[#0b0c10] transition-opacity disabled:opacity-30"
+                    >
+                      <IconeEnviar className="h-4 w-4" />
                     </button>
                   </form>
                 </>
               ) : (
                 <>
                   <div className="flex items-center gap-3 border-b border-white/10 px-4 py-3">
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[#ffab4a] to-[#ff4d8d] text-sm font-bold text-[#0b0c10]">
-                      {iniciais(papel === 'GESTOR' ? 'G' : 'R')}
-                    </span>
-                    <p className="flex-1 text-sm font-semibold">Mensagens</p>
-                    <button type="button" onClick={() => setAberto(false)} aria-label="Minimizar" className="text-white/70 hover:text-white">⌄</button>
+                    {avatarProprio}
+                    <p className="flex-1 text-sm font-semibold tracking-tight">Mensagens</p>
+                    <button type="button" aria-label="Nova mensagem" className={botaoIcone} title="Escolha um candidato no perfil dele">
+                      <IconeNovaMensagem className="h-4 w-4" />
+                    </button>
+                    <button type="button" onClick={() => setAberto(false)} aria-label="Minimizar" className={botaoIcone}>
+                      <IconeChevronBaixo className="h-4 w-4" />
+                    </button>
                   </div>
                   {erro && <p role="alert" className="px-4 pt-3 text-sm text-red-400">{erro}</p>}
-                  <div className="flex-1 overflow-y-auto">
+                  <div className="flex-1 overflow-y-auto py-1">
                     {conversas.length === 0 && (
-                      <p className="px-4 py-8 text-center text-sm text-white/40">
-                        {papel === 'RECRUTADOR' ? 'Abra o perfil de um candidato e clique em "Enviar mensagem".' : 'Quando um recrutador falar com você, a conversa aparece aqui.'}
-                      </p>
+                      <div className="flex flex-col items-center gap-3 px-6 py-14 text-center">
+                        <IconeMensagem className="h-10 w-10 text-white/20" />
+                        <p className="text-sm text-white/50">
+                          {papel === 'RECRUTADOR'
+                            ? 'Abra o perfil de um candidato e clique em "Enviar mensagem".'
+                            : 'Quando um recrutador falar com você, a conversa aparece aqui.'}
+                        </p>
+                      </div>
                     )}
                     {conversas.map((c) => (
                       <button
                         key={c.id}
                         type="button"
                         onClick={() => setAtiva(c)}
-                        className="flex w-full items-center gap-3 px-4 py-3 text-left hover:bg-white/5"
+                        className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-white/5"
                       >
-                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 font-semibold">
+                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-white/15 to-white/5 font-semibold">
                           {iniciais(c.outroNome)}
                         </span>
                         <span className="min-w-0 flex-1">
@@ -189,7 +227,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
                             <span className="truncate text-sm font-semibold">{c.outroNome}</span>
                             {c.ultimaEm && <span className="shrink-0 text-[11px] text-white/40">{c.ultimaEm}</span>}
                           </span>
-                          <span className="block truncate text-xs text-white/50">{c.ultimaMensagem ?? 'Sem mensagens ainda'}</span>
+                          <span className="mt-0.5 block truncate text-xs text-white/50">{c.ultimaMensagem ?? 'Sem mensagens ainda'}</span>
                         </span>
                       </button>
                     ))}
