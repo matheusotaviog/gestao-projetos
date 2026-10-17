@@ -54,6 +54,10 @@ public class ContatoService {
             throw new NoSuchElementException("Candidato não encontrado");
         }
 
+        if (remetente == null || remetente.isBlank()) {
+            throw new IllegalStateException("O envio de e-mails não está configurado no servidor (MAIL_FROM).");
+        }
+
         registrarEnvio(emailRecrutador);
 
         SimpleMailMessage email = new SimpleMailMessage();
