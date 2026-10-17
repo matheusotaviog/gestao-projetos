@@ -11,7 +11,6 @@ import { ProjetoDetalhes } from './Pages/ProjetoDetalhes/ProjetoDetalhes'
 import { Perfil } from './Pages/Perfil/Perfil'
 import { Candidatos } from './Pages/Candidatos/Candidatos'
 import { Admin } from './Pages/Admin/Admin'
-import { Contato } from './Pages/Contato/Contato'
 
 export function App() {
   return (
@@ -30,7 +29,6 @@ export function App() {
           </Route>
           <Route element={<ProtectedRoute papeis={['RECRUTADOR', 'ADMIN']} />}>
             <Route path="/candidatos" element={<Candidatos />} />
-            <Route path="/perfil/:username/contato" element={<Contato />} />
           </Route>
           <Route element={<ProtectedRoute papeis={['ADMIN']} />}>
             <Route path="/admin" element={<Admin />} />
