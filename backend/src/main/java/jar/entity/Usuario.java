@@ -31,6 +31,24 @@ public class Usuario {
     @Column(length = 80)
     private String profissao;
 
+    @Column(length = 2048)
+    private String avatar;
+
+    @Column(length = 80)
+    private String cidade;
+
+    @Column(length = 120)
+    private String empresa;
+
+    @Column(length = 2048)
+    private String github;
+
+    @Column(length = 2048)
+    private String linkedin;
+
+    @Column(length = 2048)
+    private String site;
+
     @Column(nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String senha;
@@ -57,6 +75,24 @@ public class Usuario {
 
     public String getBio() { return bio; }
     public void setBio(String bio) { this.bio = bio; }
+
+    public String getAvatar() { return avatar; }
+    public void setAvatar(String avatar) { this.avatar = avatar; }
+
+    public String getCidade() { return cidade; }
+    public void setCidade(String cidade) { this.cidade = cidade; }
+
+    public String getEmpresa() { return empresa; }
+    public void setEmpresa(String empresa) { this.empresa = empresa; }
+
+    public String getGithub() { return github; }
+    public void setGithub(String github) { this.github = github; }
+
+    public String getLinkedin() { return linkedin; }
+    public void setLinkedin(String linkedin) { this.linkedin = linkedin; }
+
+    public String getSite() { return site; }
+    public void setSite(String site) { this.site = site; }
 
     public Papel getPapel() { return papel; }
     public void setPapel(Papel papel) { this.papel = papel; }

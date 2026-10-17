@@ -40,7 +40,7 @@ public class CandidatoService {
             .flatMap(List::stream)
             .distinct()
             .toList();
-        return new CandidatoResponse(usuario.getUsername(), usuario.getNome(), usuario.getProfissao(), tecnologias);
+        return new CandidatoResponse(usuario.getUsername(), usuario.getNome(), usuario.getProfissao(), usuario.getAvatar(), tecnologias);
     }
 
     private String normalizar(String valor) {
