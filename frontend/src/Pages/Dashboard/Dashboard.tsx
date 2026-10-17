@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Showcase } from '../../components/Showcase/Showcase'
+import { FaixaTecnologias, Showcase } from '../../components/Showcase/Showcase'
 
 function Dashboard() {
   return (
@@ -43,7 +43,9 @@ function Dashboard() {
         </p>
       </section>
 
-      <section className="relative px-6 pb-40 sm:px-12 lg:px-20">
+      <FaixaTecnologias />
+
+      <section className="relative px-6 pb-40 pt-32 sm:px-12 lg:px-20">
         <Showcase />
       </section>
 

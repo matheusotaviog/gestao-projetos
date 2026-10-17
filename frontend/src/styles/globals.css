@@ -118,10 +118,56 @@ input:focus-visible {
   }
 }
 
+@keyframes scan {
+  0% { top: 0; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@theme {
+  --animate-scan: scan 4s ease-in-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pop: pop 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-marquee: marquee 30s linear infinite;
+  --animate-spin-slow: spin-slow 8s linear infinite;
+  --animate-shimmer: shimmer 6s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .bg-grid,
   .animate-fade-up,
-  .page-in {
+  .page-in,
+  .animate-scan,
+  .animate-float,
+  .animate-pop,
+  .animate-marquee,
+  .animate-spin-slow,
+  .animate-shimmer {
     animation: none;
   }
 }
