@@ -30,8 +30,6 @@ export async function api<T>(caminho: string, { method = 'GET', body, token }: O
     throw new ApiError(resposta.status, (await resposta.text()) || 'Erro inesperado.')
   }
 
-  if (resposta.status === 204) {
-    return undefined as T
-  }
-  return (await resposta.json()) as T
+  const texto = await resposta.text()
+  return (texto ? JSON.parse(texto) : undefined) as T
 }
