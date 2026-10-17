@@ -114,7 +114,7 @@ export function Perfil() {
           </div>
           <div className="min-w-0">
             <h1 className="text-4xl font-bold tracking-tight">{perfil.nome}</h1>
-            {papel === 'RECRUTADOR' && (
+            {papel === 'RECRUTADOR' && meuUsername !== perfil.username && (
               <button
                 type="button"
                 onClick={() => abrirCom(perfil.username)}
