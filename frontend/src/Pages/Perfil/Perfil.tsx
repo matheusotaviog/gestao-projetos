@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { api, ApiError } from '../../services/api'
 import { urlImagem, type Perfil as PerfilDados, type Projeto } from '../../services/projetos'
 import { urlAvatar } from '../../services/perfil'
+import { LinkSocial } from '../../components/LinkSocial/LinkSocial'
 import { ProjetoModal } from '../../components/ProjetoModal/ProjetoModal'
 import { SkeletonPerfil } from '../../components/Skeleton/Skeleton'
 import { useChat } from '../../components/Chat/ChatWidget'
@@ -134,10 +135,10 @@ export function Perfil() {
               </Link>
             )}
             {(perfil.github || perfil.linkedin || perfil.site) && (
-              <div className="mt-4 flex flex-wrap gap-3 text-sm">
-                {perfil.github && <a href={perfil.github} target="_blank" rel="noopener noreferrer" className="text-white/70 underline-offset-4 hover:text-white hover:underline">GitHub ↗</a>}
-                {perfil.linkedin && <a href={perfil.linkedin} target="_blank" rel="noopener noreferrer" className="text-white/70 underline-offset-4 hover:text-white hover:underline">LinkedIn ↗</a>}
-                {perfil.site && <a href={perfil.site} target="_blank" rel="noopener noreferrer" className="text-white/70 underline-offset-4 hover:text-white hover:underline">Site ↗</a>}
+              <div className="mt-4 flex flex-wrap gap-2">
+                {perfil.github && <LinkSocial tipo="github" href={perfil.github} />}
+                {perfil.linkedin && <LinkSocial tipo="linkedin" href={perfil.linkedin} />}
+                {perfil.site && <LinkSocial tipo="site" href={perfil.site} />}
               </div>
             )}
 
