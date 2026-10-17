@@ -1,7 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useAuth } from '../../Context/AuthContext'
 import { alterarPapel, listarUsuarios, removerUsuario, type Papel, type UsuarioAdmin } from '../../services/usuarios'
 import { SkeletonLinhas } from '../../components/Skeleton/Skeleton'
+
+const ABAS: { valor: Papel; rotulo: string }[] = [
+  { valor: 'GESTOR', rotulo: 'Gestores de projetos' },
+  { valor: 'RECRUTADOR', rotulo: 'Recrutadores' },
+  { valor: 'ADMIN', rotulo: 'Admins' },
+]
 
 const PAPEIS: { valor: Papel; rotulo: string }[] = [
   { valor: 'GESTOR', rotulo: 'Gestor' },
@@ -14,6 +20,15 @@ export function Admin() {
   const [usuarios, setUsuarios] = useState<UsuarioAdmin[]>([])
   const [erro, setErro] = useState<string | null>(null)
   const [carregando, setCarregando] = useState(true)
+  const [aba, setAba] = useState<Papel>('GESTOR')
+
+  const contagens = useMemo(() => {
+    const c: Record<Papel, number> = { GESTOR: 0, RECRUTADOR: 0, ADMIN: 0 }
+    usuarios.forEach((u) => { c[u.papel] += 1 })
+    return c
+  }, [usuarios])
+
+  const visiveis = useMemo(() => usuarios.filter((u) => u.papel === aba), [usuarios, aba])
 
   useEffect(() => {
     if (!token) return
@@ -55,7 +70,30 @@ export function Admin() {
       {carregando && <SkeletonLinhas />}
 
       {!carregando && (
-        <div className="mt-8 overflow-x-auto rounded-2xl bg-white shadow-sm">
+        <div role="tablist" className="mt-8 flex gap-2 rounded-full bg-white p-1 shadow-sm w-fit">
+          {ABAS.map((item) => (
+            <button
+              key={item.valor}
+              type="button"
+              role="tab"
+              aria-selected={aba === item.valor}
+              onClick={() => setAba(item.valor)}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                aba === item.valor ? 'bg-[#1d1d1f] text-white' : 'text-[#6e6e73] hover:text-[#1d1d1f]'
+              }`}
+            >
+              {item.rotulo} <span className="ml-1 opacity-60">{contagens[item.valor]}</span>
+            </button>
+          ))}
+        </div>
+      )}
+
+      {!carregando && visiveis.length === 0 && (
+        <p className="mt-8 text-[#6e6e73]">Nenhum usuário nesta categoria.</p>
+      )}
+
+      {!carregando && visiveis.length > 0 && (
+        <div className="mt-6 overflow-x-auto rounded-2xl bg-white shadow-sm">
           <table className="w-full text-left text-sm">
             <thead className="border-b border-[#e8e8ed] text-xs uppercase tracking-wide text-[#86868b]">
               <tr>
@@ -67,7 +105,7 @@ export function Admin() {
               </tr>
             </thead>
             <tbody>
-              {usuarios.map((usuario) => (
+              {visiveis.map((usuario) => (
                 <tr key={usuario.id} className="border-b border-[#f5f5f7] last:border-0">
                   <td className="px-4 py-3">
                     <p className="font-medium text-[#1d1d1f]">{usuario.nome}</p>
