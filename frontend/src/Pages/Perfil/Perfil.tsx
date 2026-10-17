@@ -3,6 +3,8 @@ import { Link, useParams } from 'react-router-dom'
 import { api, ApiError } from '../../services/api'
 import { urlImagem, type Perfil as PerfilDados, type Projeto } from '../../services/projetos'
 import { ProjetoModal } from '../../components/ProjetoModal/ProjetoModal'
+import { useChat } from '../../components/Chat/ChatWidget'
+import { useAuth } from '../../Context/AuthContext'
 
 function tomDoNome(nome: string): number {
   return [...nome].reduce((soma, letra) => soma + letra.charCodeAt(0), 0) % 360
@@ -55,6 +57,8 @@ function TileProjeto({ projeto, onDetalhes }: { projeto: Projeto; onDetalhes: ()
 
 export function Perfil() {
   const { username } = useParams()
+  const { papel } = useAuth()
+  const { abrirCom } = useChat()
   const [perfil, setPerfil] = useState<PerfilDados | null>(null)
   const [erro, setErro] = useState<string | null>(null)
   const [selecionado, setSelecionado] = useState<Projeto | null>(null)
@@ -103,6 +107,15 @@ export function Perfil() {
           </div>
           <div className="min-w-0">
             <h1 className="text-4xl font-bold tracking-tight">{perfil.nome}</h1>
+            {papel === 'RECRUTADOR' && (
+              <button
+                type="button"
+                onClick={() => abrirCom(perfil.username)}
+                className="mt-4 inline-block rounded-full bg-gradient-to-r from-[#ffab4a] to-[#ff4d8d] px-5 py-2 text-sm font-semibold text-[#0b0c10]"
+              >
+                Enviar mensagem
+              </button>
+            )}
             <p className="mt-1 text-sm font-medium text-[#ffab4a]">@{perfil.username}</p>
 
             <dl className="mt-5 flex gap-8 text-sm">
