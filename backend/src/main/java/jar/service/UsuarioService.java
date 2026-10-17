@@ -3,11 +3,17 @@ package jar.service;
 import jar.catalogo.Profissoes;
 import jar.dto.UsuarioAdminResponse;
 import jar.entity.Papel;
+import jar.entity.Conversa;
+import jar.entity.Projeto;
+import jar.repository.ConversaRepository;
+import jar.repository.MensagemRepository;
+import jar.repository.ProjetoRepository;
 import jar.entity.Usuario;
 import jar.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -23,6 +29,15 @@ public class UsuarioService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ProjetoRepository projetoRepository;
+
+    @Autowired
+    private ConversaRepository conversaRepository;
+
+    @Autowired
+    private MensagemRepository mensagemRepository;
 
     // Listar todos
     public List<Usuario> listarTodos() {
@@ -103,10 +118,18 @@ public class UsuarioService {
         return UsuarioAdminResponse.de(repository.save(alvo));
     }
 
+    @Transactional
     public void removerParaAdmin(Long id, String emailAdmin) {
         Usuario alvo = obterPorId(id);
         if (alvo.getEmail().equals(emailAdmin)) {
             throw new IllegalArgumentException("Você não pode remover a própria conta");
+        }
+        for (Conversa conversa : conversaRepository.findByRecrutadorOrGestorOrderByCriadaEmDesc(alvo, alvo)) {
+            mensagemRepository.deleteAll(mensagemRepository.findByConversaOrderByCriadaEmAsc(conversa));
+            conversaRepository.delete(conversa);
+        }
+        for (Projeto projeto : projetoRepository.findByUsuarioOrderByDataCriacaoDesc(alvo)) {
+            projetoRepository.delete(projeto);
         }
         repository.delete(alvo);
     }
