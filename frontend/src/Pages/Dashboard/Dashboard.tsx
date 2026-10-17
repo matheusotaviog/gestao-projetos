@@ -1,22 +1,5 @@
 import { Link } from 'react-router-dom'
-
-const recursos = [
-  {
-    numero: '01',
-    titulo: 'Projetos',
-    texto: 'Cada projeto com descrição, link, ano e uma imagem tirada direto do site que ele representa.',
-  },
-  {
-    numero: '02',
-    titulo: 'Painel de gestão',
-    texto: 'Só você vê o andamento do seu trabalho. Edite, acompanhe e conclua quando quiser.',
-  },
-  {
-    numero: '03',
-    titulo: 'Perfil público',
-    texto: 'Uma página sua, com quem você é e tudo o que construiu, pronta para ser compartilhada.',
-  },
-]
+import { Showcase } from '../../components/Showcase/Showcase'
 
 function Dashboard() {
   return (
@@ -60,19 +43,8 @@ function Dashboard() {
         </p>
       </section>
 
-      <section className="relative px-6 pb-32 sm:px-12 lg:px-20">
-        <ul className="divide-y divide-[#f4f1ea]/15 border-y border-[#f4f1ea]/15">
-          {recursos.map((recurso) => (
-            <li
-              key={recurso.numero}
-              className="grid gap-4 py-10 transition-colors duration-500 hover:bg-[#f4f1ea]/[0.03] sm:grid-cols-[6rem_1fr_2fr] sm:items-baseline sm:gap-10"
-            >
-              <span className="font-mono text-sm text-[#f4f1ea]/40">{recurso.numero}</span>
-              <h2 className="text-3xl font-bold uppercase tracking-tight sm:text-5xl">{recurso.titulo}</h2>
-              <p className="text-base leading-relaxed text-[#f4f1ea]/65">{recurso.texto}</p>
-            </li>
-          ))}
-        </ul>
+      <section className="relative px-6 pb-40 sm:px-12 lg:px-20">
+        <Showcase />
       </section>
 
       <section className="relative flex flex-col items-center px-6 py-40 text-center">
