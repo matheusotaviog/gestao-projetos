@@ -3,9 +3,9 @@ import { equipe, type Integrante } from '../../data/equipe'
 function Avatar({ integrante }: { integrante: Integrante }) {
   const iniciais = integrante.nome.split(' ').map((p) => p.charAt(0)).slice(0, 2).join('').toUpperCase()
   return (
-    <div className="mx-auto -mt-16 flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border-4 border-[#d2d2d7] bg-white text-2xl font-semibold text-[#6e6e73]">
+    <div className="mx-auto -mt-20 flex h-40 w-40 items-center justify-center overflow-hidden rounded-full border-4 border-[#d2d2d7] bg-white text-3xl font-semibold text-[#6e6e73]">
       {integrante.foto ? (
-        <img src={integrante.foto} alt={integrante.nome} className="h-full w-full object-cover" loading="lazy" />
+        <img src={integrante.foto} alt={integrante.nome} className="h-full w-full object-cover object-top" loading="lazy" />
       ) : (
         iniciais
       )}
@@ -24,9 +24,9 @@ export function SobreNos() {
         </p>
       </section>
 
-      <section className="mx-auto grid max-w-5xl gap-6 px-6 pb-24 sm:grid-cols-2 lg:grid-cols-3">
+      <section className="mx-auto flex max-w-5xl flex-wrap justify-center gap-6 px-6 pb-24">
         {equipe.map((integrante) => (
-          <article key={integrante.nome} className="rounded-2xl bg-white px-6 pb-8 pt-0 text-center shadow-sm">
+          <article key={integrante.nome} className="w-full rounded-2xl bg-white px-6 pb-8 pt-0 text-center shadow-sm sm:w-72">
             <Avatar integrante={integrante} />
             <h2 className="mt-5 text-lg font-semibold">{integrante.nome}</h2>
             <p className="mt-1 text-sm font-medium text-[#0071e3]">{integrante.funcao}</p>
