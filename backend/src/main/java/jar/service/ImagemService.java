@@ -1,14 +1,13 @@
 package jar.service;
 
+import jar.entity.Arquivo;
+import jar.repository.ArquivoRepository;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Pattern;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,15 +19,16 @@ public class ImagemService {
         "image/png", "png",
         "image/webp", "webp"
     );
+    private static final Map<String, String> MIME = Map.of(
+        "jpg", "image/jpeg",
+        "png", "image/png",
+        "webp", "image/webp"
+    );
     private static final Pattern NOME_VALIDO = Pattern.compile("[a-f0-9-]{36}\\.(jpg|png|webp)");
     private static final long TAMANHO_MAXIMO = 5L * 1024 * 1024;
 
-    private final Path pasta;
-
-    public ImagemService(@Value("${app.uploads.dir}") String diretorio) throws IOException {
-        this.pasta = Path.of(diretorio).toAbsolutePath().normalize();
-        Files.createDirectories(pasta);
-    }
+    @Autowired
+    private ArquivoRepository repository;
 
     public String salvar(MultipartFile arquivo) throws IOException {
         if (arquivo.isEmpty()) {
@@ -42,21 +42,20 @@ public class ImagemService {
             throw new IllegalArgumentException("Formatos aceitos: JPG, PNG ou WEBP");
         }
         String nome = UUID.randomUUID() + "." + extensao;
-        Files.copy(arquivo.getInputStream(), pasta.resolve(nome));
+        repository.save(new Arquivo(nome, MIME.get(extensao), arquivo.getBytes()));
         return nome;
     }
 
-    public Resource carregar(String nome) {
-        if (!NOME_VALIDO.matcher(nome).matches()) {
-            return null;
+    public Optional<Arquivo> carregar(String nome) {
+        if (nome == null || !NOME_VALIDO.matcher(nome).matches()) {
+            return Optional.empty();
         }
-        Resource recurso = new FileSystemResource(pasta.resolve(nome));
-        return recurso.exists() ? recurso : null;
+        return repository.findById(nome);
     }
 
-    public void remover(String nome) throws IOException {
+    public void remover(String nome) {
         if (nome != null && NOME_VALIDO.matcher(nome).matches()) {
-            Files.deleteIfExists(pasta.resolve(nome));
+            repository.deleteById(nome);
         }
     }
 }

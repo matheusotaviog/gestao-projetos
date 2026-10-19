@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jar.entity.Projeto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
