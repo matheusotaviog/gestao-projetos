@@ -20,7 +20,7 @@ export function SobreNos() {
         <p className="text-sm font-semibold uppercase tracking-widest text-[#0071e3]">Sobre nós</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">As pessoas por trás da Mirrorwork</h1>
         <p className="mx-auto mt-5 max-w-2xl text-lg text-[#6e6e73]">
-          Somos uma equipe de seis desenvolvedores que criou esta plataforma para que cada profissional possa mostrar o que constrói.
+          Somos uma equipe de cinco desenvolvedores que criou esta plataforma para que cada profissional possa mostrar o que constrói.
         </p>
       </section>
 
