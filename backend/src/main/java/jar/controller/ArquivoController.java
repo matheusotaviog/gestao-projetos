@@ -1,11 +1,13 @@
 package jar.controller;
 
+import jar.entity.Arquivo;
 import jar.service.ImagemService;
+import java.time.Duration;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
+import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.MediaTypeFactory;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,12 +18,14 @@ public class ArquivoController {
     private ImagemService imagemService;
 
     @GetMapping("/{nome}")
-    public ResponseEntity<Resource> obter(@PathVariable String nome) {
-        Resource recurso = imagemService.carregar(nome);
-        if (recurso == null) {
+    public ResponseEntity<byte[]> obter(@PathVariable String nome) {
+        Optional<Arquivo> arquivo = imagemService.carregar(nome);
+        if (arquivo.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        MediaType tipo = MediaTypeFactory.getMediaType(recurso).orElse(MediaType.APPLICATION_OCTET_STREAM);
-        return ResponseEntity.ok().contentType(tipo).body(recurso);
+        return ResponseEntity.ok()
+            .contentType(MediaType.parseMediaType(arquivo.get().getTipo()))
+            .cacheControl(CacheControl.maxAge(Duration.ofDays(1)).cachePublic())
+            .body(arquivo.get().getConteudo());
     }
 }
