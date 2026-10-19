@@ -2,14 +2,38 @@ export type Integrante = {
   nome: string
   funcao: string
   descricao: string
-  foto?: string
+  foto: string
 }
 
 export const equipe: Integrante[] = [
-  { nome: 'Integrante 1', funcao: 'Função', descricao: 'Breve descrição sobre a trajetória e o papel no projeto.' },
-  { nome: 'Integrante 2', funcao: 'Função', descricao: 'Breve descrição sobre a trajetória e o papel no projeto.' },
-  { nome: 'Integrante 3', funcao: 'Função', descricao: 'Breve descrição sobre a trajetória e o papel no projeto.' },
-  { nome: 'Integrante 4', funcao: 'Função', descricao: 'Breve descrição sobre a trajetória e o papel no projeto.' },
-  { nome: 'Integrante 5', funcao: 'Função', descricao: 'Breve descrição sobre a trajetória e o papel no projeto.' },
-  { nome: 'Integrante 6', funcao: 'Função', descricao: 'Breve descrição sobre a trajetória e o papel no projeto.' },
+  {
+    nome: 'Luís Otávio Santana de Oliveira',
+    funcao: 'Desenvolvedor Full Stack',
+    descricao: 'Aluno | +Prati',
+    foto: '/equipe/luis-otavio.jpg',
+  },
+  {
+    nome: 'Kayllaine Menezes de Azevedo',
+    funcao: 'Desenvolvedor Full Stack',
+    descricao: 'Aluno | +Prati',
+    foto: '/equipe/kayllaine.jpg',
+  },
+  {
+    nome: 'Francisco Levi Peixoto',
+    funcao: 'Desenvolvedor Full Stack',
+    descricao: 'Aluno | +Prati',
+    foto: '/equipe/francisco-levi.jpg',
+  },
+  {
+    nome: 'Stefani Borges Gonçalves',
+    funcao: 'Desenvolvedor Full Stack',
+    descricao: 'Aluno | +Prati',
+    foto: '/equipe/stefani.jpg',
+  },
+  {
+    nome: 'Gabriel Dantas Lopes',
+    funcao: 'Desenvolvedor Full Stack',
+    descricao: 'Aluno | +Prati',
+    foto: '/equipe/gabriel.jpg',
+  },
 ]
