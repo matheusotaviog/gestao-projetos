@@ -12,6 +12,7 @@ import { ProjetoDetalhes } from './Pages/ProjetoDetalhes/ProjetoDetalhes'
 import { Perfil } from './Pages/Perfil/Perfil'
 import { Candidatos } from './Pages/Candidatos/Candidatos'
 import { Admin } from './Pages/Admin/Admin'
+import { SobreNos } from './Pages/SobreNos/SobreNos'
 import { EditarPerfil } from './Pages/EditarPerfil/EditarPerfil'
 
 const DURACAO_SAIDA = 260
@@ -42,6 +43,7 @@ export function App() {
         <div key={exibida.pathname} className={saindo ? 'page-out' : 'page-in'}>
         <Routes location={exibida}>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/sobre" element={<SobreNos />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro />} />
           <Route path="/perfil/:username" element={<Perfil />} />
