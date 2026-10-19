@@ -17,14 +17,14 @@ export function SobreNos() {
   return (
     <div className="bg-[#f5f5f7]">
       <section className="mx-auto max-w-5xl px-6 pb-16 pt-20 text-center">
-        <p className="text-sm font-semibold uppercase tracking-widest text-[#0071e3]">Sobre nós</p>
+        <p className="mx-auto text-sm font-semibold uppercase tracking-widest text-[#0071e3]">Sobre nós</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">As pessoas por trás da Mirrorwork</h1>
         <p className="mx-auto mt-5 max-w-2xl text-lg text-[#6e6e73]">
           Somos uma equipe de cinco desenvolvedores que criou esta plataforma para que cada profissional possa mostrar o que constrói.
         </p>
       </section>
 
-      <section className="mx-auto flex max-w-5xl flex-wrap justify-center gap-6 px-6 pb-24">
+      <section className="mx-auto flex max-w-5xl flex-wrap justify-center gap-x-6 gap-y-24 px-6 pb-24 pt-24">
         {equipe.map((integrante) => (
           <article key={integrante.nome} className="w-full rounded-2xl bg-white px-6 pb-8 pt-0 text-center shadow-sm sm:w-72">
             <Avatar integrante={integrante} />
